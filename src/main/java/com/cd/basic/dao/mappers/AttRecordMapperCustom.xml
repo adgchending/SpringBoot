@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.basic.dao.AttRecordDaoCustom">
+    <!--获取教师卡号的关联信息-->
+   <select id="getWorkerInfor" parameterType="java.lang.String" resultType="com.cd.basic.pojo.bo.AttRecordWorkerInforBo">
+        SELECT a.FK_CODE as cardCode,b.WORKER_FK_CODE AS workerFkcode,c.SCHOOL_FK_CODE as schoolFkcode,e.CAMPUS_FK_CODE as campusFkcode
+        FROM Att_Worker_Card a
+        LEFT JOIN Att_R_Card_Worker b
+        on b.CARD_FK_CODE = a.FK_CODE
+        LEFT JOIN Basic_Worker_Infor c
+        on b.WORKER_FK_CODE = c.FK_CODE
+        LEFT JOIN R_Department_Worker d
+        on d.WORKER_FK_CODE = c.FK_CODE
+        LEFT JOIN Basic_Department e
+        on d.DEPARTMENT_FK_CODE = e.FK_CODE
+        where  a.CARD_CODE = #{_parameter} and a.ENABLE_STATUS =1 and a.DEL_STATUS = 0
+        and b.DEL_STATUS = 0 and c.DEL_STATUS = 0 and d.DEL_STATUS = 0 and e.DEL_STATUS = 0
+   </select><!--获取学生卡号的关联信息-->
+    <select id="getStudentInfor" parameterType="java.lang.String" resultType="com.cd.basic.pojo.bo.AttRecordStudentInforBo">
+        SELECT e.STU_NAME as sudentName,a.FK_CODE as cardCode,b.STUDENT_FK_CODE AS studentFkcode,d.SCHOOL_FK_CODE as schoolFkcode,d.CAMPUS_FK_CODE as campusFkcode
+        FROM Att_Student_Card a
+        LEFT JOIN Att_R_Card_Student b
+        on b.CARD_FK_CODE = a.FK_CODE
+        LEFT JOIN R_Class_Student c
+        on b.STUDENT_FK_CODE = c.STUDENT_FK_CODE
+        LEFT JOIN Basic_Class d
+        on c.CLASS_FK_CODE = d.FK_CODE
+        LEFT JOIN Basic_Student_Infor e
+		on b.STUDENT_FK_CODE = e.FK_CODE
+        where  a.CARD_CODE = #{_parameter} and a.ENABLE_STATUS =1 and a.DEL_STATUS = 0
+		and b.DEL_STATUS = 0 and c.DEL_STATUS = 0 and d.DEL_STATUS = 0 and e.DEL_STATUS = 0
+    </select>
+
+    <!--获取教师签退签到时间段-->
+    <select id="getSttingWorkerInfor" resultType="com.cd.basic.pojo.bo.AttSettingWorkerBo">
+        select SIGN_BIG_TIME AS signBigTime,SIGN_END_TIME as signEndTime,
+        SIGN_BACK_BIG_TIME AS signBackBigTime,SIGN_BACK_END_TIME AS signBackEndTime,
+        TO_WORK_TIME AS toWorkTime,OFF_WPRK_TIME AS offWprkTime
+        from Att_Setting_Worker
+        where CAMPUS_FK_CODE = #{campusFkcode}  and INITIATE_MODE = 0 and DEL_STATUS = 0
+        and ((#{time}>=SIGN_BIG_TIME and SIGN_END_TIME>=#{time})or (#{time}>=SIGN_BACK_BIG_TIME and SIGN_BACK_END_TIME>=#{time}))
+        and ATTENDANCE_DAY like '%${week}%'
+</select>
+    <!--获取学生签退签到时间段-->
+    <select id="getSttingStudentInfor" parameterType="java.lang.String" resultType="com.cd.basic.pojo.bo.AttSettingWorkerBo">
+        select SIGN_BIG_TIME AS signBigTime ,SIGN_END_TIME as signEndTime,
+        SIGN_BACK_BIG_TIME AS signBackBigTime,SIGN_BACK_END_TIME AS signBackEndTime ,
+        TO_WORK_TIME AS toWorkTime,OFF_WPRK_TIME AS offWprkTime
+        from Att_Setting_Student
+        where CAMPUS_FK_CODE = #{campusFkcode}  and INITIATE_MODE = 0 and DEL_STATUS = 0
+        and ((#{time}>=SIGN_BIG_TIME and SIGN_END_TIME>=#{time})or (#{time}>=SIGN_BACK_BIG_TIME and SIGN_BACK_END_TIME>=#{time}))
+        and ATTENDANCE_DAY like '%${week}%'
+</select>
+    <!--是否教师-->
+    <select id="workerType" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT COUNT(b.WORKER_FK_CODE)
+        FROM Att_Worker_Card a
+        LEFT JOIN Att_R_Card_Worker b
+        on b.CARD_FK_CODE = a.FK_CODE
+        where  a.CARD_CODE = #{_parameter} and a.ENABLE_STATUS =1 and a.DEL_STATUS = 0
+    </select>
+    <!--是否学生-->
+    <select id="studentType" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT COUNT(b.STUDENT_FK_CODE)
+        FROM Att_Student_Card a
+        LEFT JOIN Att_R_Card_Student b
+        on b.CARD_FK_CODE = a.FK_CODE
+        where  a.CARD_CODE = #{_parameter} and a.ENABLE_STATUS =1 and a.DEL_STATUS = 0
+    </select>
+    <!--新增教师打卡记录-->
+    <insert id="insertRecordWork" parameterType="com.cd.basic.pojo.bo.AttRecordWorkerInforBo">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Record_Worker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="fkCode != null">FK_CODE,</if>
+            <if test="workerFkcode != null">WORKER_FK_CODE,</if>
+            <if test=" cardCode!= null">CARD_CODE,</if>
+            <if test=" attendanceDay!= null">ATTENDANCE_DAY,</if>
+            <if test=" type!= null">TYPE,</if>
+            <if test=" attendanceStatus!= null">ATTENDANCE_STATUS,</if>
+            <if test=" attendanceTime!= null">ATTENDANCE_TIME,</if>
+            <if test=" createTime!= null">CREATE_TIME,</if>
+            <if test=" updateTime!= null">UPDATE_TIME,</if>
+            <if test=" delStatus!= null">DEL_STATUS,</if>
+            <if test=" schoolFkcode!= null">SCHOOL_FK_CODE,</if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="fkCode != null"> #{fkCode},</if>
+            <if test="workerFkcode != null">#{workerFkcode},</if>
+            <if test=" cardCode!= null">#{cardCode},</if>
+            <if test=" attendanceDay!= null">#{attendanceDay},</if>
+            <if test=" type!= null">#{type},</if>
+            <if test=" attendanceStatus!= null">#{attendanceStatus},</if>
+            <if test=" attendanceTime!= null">#{attendanceTime},</if>
+            <if test=" createTime!= null">#{createTime},</if>
+            <if test=" updateTime!= null">#{updateTime},</if>
+            <if test=" delStatus!= null">#{delStatus},</if>
+            <if test=" schoolFkcode!= null">#{schoolFkcode},</if>
+        </trim>
+    </insert>
+    <!--新增学生打卡记录-->
+    <insert id="insertRecordStudent" parameterType="com.cd.basic.pojo.bo.AttRecordStudentInforBo">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Record_Student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fkCode != null">FK_CODE,</if>
+            <if test=" studentFkcode!= null">STUDENT_FK_CODE,</if>
+            <if test=" gradeName!= null">GRADE_NAME,</if>
+            <if test=" type!= null">TYPE,</if>
+            <if test=" attendanceStatus!= null">ATTENDANCE_STATUS,</if>
+            <if test=" attendanceDay!= null">ATTENDANCE_DAY,</if>
+            <if test=" attendanceTime!= null">ATTENADNCE_TIME,</if>
+            <if test=" createTime!= null">CREATE_TIME,</if>
+            <if test=" updateTime!= null">UPDATE_TIME,</if>
+            <if test=" cardCode!= null">CARD_CODE,</if>
+            <if test=" schoolFkcode!= null">SCHOOL_FK_CODE,</if>
+            <if test=" delStatus!= null">DEL_STATUS,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fkCode != null"> #{fkCode},</if>
+            <if test=" studentFkcode!= null"> #{studentFkcode},</if>
+            <if test=" gradeName!= null"> #{gradeName},</if>
+            <if test=" type!= null"> #{type},</if>
+            <if test=" attendanceStatus!= null"> #{attendanceStatus},</if>
+            <if test=" attendanceDay!= null"> #{attendanceDay},</if>
+            <if test=" attendanceTime!= null"> #{attendanceTime},</if>
+            <if test=" createTime!= null"> #{createTime},</if>
+            <if test=" updateTime!= null"> #{updateTime},</if>
+            <if test=" cardCode!= null"> #{cardCode},</if>
+            <if test=" schoolFkcode!= null"> #{schoolFkcode},</if>
+            <if test=" delStatus!= null">#{delStatus},</if>
+        </trim>
+    </insert>
+<!--教师是否打卡-->
+    <select id="getRecordWorkerRepeat" parameterType="com.cd.basic.pojo.bo.AttRecordRepeatBo" resultType="java.lang.Integer">
+        SELECT COUNT(FK_CODE)
+        from Att_Record_Worker
+        where ATTENDANCE_DAY = #{day} and  ATTENDANCE_TIME>=#{startTime} and #{endTime}>=ATTENDANCE_TIME
+        and DEL_STATUS = 0 and (TYPE =#{type} or TYPE =3) and WORKER_FK_CODE = #{personFkcode}
+    </select>
+    <!--学生是否打卡-->
+    <select id="getRecordStudentRepeat" parameterType="com.cd.basic.pojo.bo.AttRecordRepeatBo" resultType="java.lang.Integer">
+        SELECT COUNT(FK_CODE)
+        from Att_Record_Student
+        where ATTENDANCE_DAY = #{day} and  ATTENADNCE_TIME>=#{startTime} and #{endTime}>=ATTENADNCE_TIME
+        and DEL_STATUS = 0 and (TYPE =#{type} or TYPE =3) and STUDENT_FK_CODE = #{personFkcode}
+    </select>
+    <!--修改教师打卡记录-->
+    <update id="updateRecordWorker" parameterType="com.cd.basic.pojo.bo.AttRecordRepeatBo">
+        update Att_Record_Worker
+        SET ATTENDANCE_STATUS=#{state},UPDATE_TIME=now()
+        where ATTENDANCE_DAY = #{day} and  ATTENDANCE_TIME>=#{startTime} and #{endTime}>=ATTENDANCE_TIME
+        and DEL_STATUS = 0 and (TYPE =#{type} or TYPE =3) and WORKER_FK_CODE = #{personFkcode}
+    </update>
+    <!--修改学生打卡记录-->
+    <update id="updateRecordStudent" parameterType="com.cd.basic.pojo.bo.AttRecordRepeatBo">
+        update Att_Record_Student
+        SET ATTENDANCE_STATUS=#{state},UPDATE_TIME=now()
+        where ATTENDANCE_DAY = #{day} and  ATTENADNCE_TIME>=#{startTime} and #{endTime}>=ATTENADNCE_TIME
+        and DEL_STATUS = 0 and (TYPE =#{type} or TYPE =3) and STUDENT_FK_CODE = #{personFkcode}
+    </update>
+
+    <!--通过学生外键查询班主任-->
+    <select id="getHeadMasterListByStudentFkcode" parameterType="java.lang.String" resultType="com.cd.basic.pojo.bo.AttTeacherClassBo">
+        select b.WORKER_FK_CODE AS workerFkcode,b.CLASS_FK_CODE AS classFkcode
+        from R_Class_Student a
+        LEFT JOIN R_Class_Worker b
+        on a.CLASS_FK_CODE = b.CLASS_FK_CODE
+        where a.STUDENT_FK_CODE = #{_parameter} and b.MANAGE_TEACHER = 1
+        and a.DEL_STATUS = 0 and b.DEL_STATUS = 0
+    </select>
+    <!--查询班级所有学生-->
+    <select id="getAttClassStudent" parameterType="java.lang.String" resultType="java.lang.String" >
+        select a.STUDENT_FK_CODE
+        from R_Class_Student a
+        LEFT JOIN Basic_Student_Infor b
+        on a.STUDENT_FK_CODE = b.FK_CODE
+        where CLASS_FK_CODE = #{_parameter} and a.DEL_STATUS = 0  and b.DEL_STATUS = 0
+    </select>
+    <!--计算班级打卡人数-->
+    <select id="getCoutAttStudents"  resultType="java.lang.Integer">
+        select COUNT(FK_CODE)
+        FROM Att_Record_Student
+        where STUDENT_FK_CODE  IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and ATTENADNCE_TIME>=#{startTime} and #{endTime} >= ATTENADNCE_TIME  and ATTENDANCE_DAY = #{day}
+        and ATTENDANCE_STATUS in ('正常','迟到') and DEL_STATUS = 0
+    </select>
+    <!--获取家长外键-->
+    <select id="getParentByStuFkCode" parameterType="java.lang.String" resultType="java.lang.String">
+        select FK_CODE
+        from Basic_Student_Family
+        WHERE STUDENT_FK_CODE = #{_parameter} and DEL_STATUS = 0
+    </select>
+</mapper>

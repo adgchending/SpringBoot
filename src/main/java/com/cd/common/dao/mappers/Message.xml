@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.common.dao.MessageDao">
+
+    <insert id="createMessage">
+        INSERT INTO Sys_Message (CREATE_TIME,UPDATE_TIME,FK_CODE,DEL_STATUS,SCHOOL_FK_CODE,USER_FK_CODE,MESSAGE_TITLE,MESSAGE_TYPE,MESSAGE_PARAMS,READER_STATUS)
+        VALUES (NOW(),NOW(),#{fkCode},0,#{form.schoolFkCode},#{form.userFkCode},#{form.messageTitle},#{form.messageType},#{form.messageParams},0)
+    </insert>
+
+</mapper>
