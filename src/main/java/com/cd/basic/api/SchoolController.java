@@ -30,7 +30,7 @@ public class SchoolController {
             case "4":
                 return ResultUtil.success("你好4");
             case "5":
-                return ResultUtil.success("你好6");
+                return ResultUtil.success("你好11");
 
             default:
                 break;
