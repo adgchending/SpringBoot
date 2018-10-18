@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.basic.dao.AttSettingWorkerDao">
+    <!-- AttSettingWorker的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_AttSettingWorker_Map" type="com.cd.basic.pojo.domain.AttSettingWorker">
+        <id column="ID" property="id" />
+        <result column="OFF_WPRK_TIME" property="offWprkTime" />
+        <result column="CAMPUS_FK_CODE" property="campusFkCode" />
+        <result column="SIGN_BACK_END_TIME" property="signBackEndTime" />
+        <result column="SIGN_END_TIME" property="signEndTime" />
+        <result column="ACTIVE_TIME" property="activeTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="ATTENDANCE_DAY" property="attendanceDay" />
+        <result column="FK_CODE" property="fkCode" />
+        <result column="SCHOOL_FK_CODE" property="schoolFkCode" />
+        <result column="TO_WORK_TIME" property="toWorkTime" />
+        <result column="INITIATE_MODE" property="initiateMode" />
+        <result column="EXPIRE_TIME" property="expireTime" />
+        <result column="DEL_STATUS" property="delStatus" />
+        <result column="SIGN_IN_HOURS_OF_DATE" property="signInHoursOfDate" />
+        <result column="SIGN_OUT_HOURS_OF_DATE" property="signOutHoursOfDate" />
+        <result column="SIGN_BIG_TIME" property="signBigTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="SIGN_BACK_BIG_TIME" property="signBackBigTime" />
+    </resultMap>
+
+	   <!-- Assist用于辅助工具类setRequires设置的条件,${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+    <sql id="Assist">
+        <where>
+            <foreach collection="require" item="req" separator=" ">
+                ${req.require} #{req.value} <if test="req.suffix != null"> ${req.suffix}</if>
+            </foreach>
+        </where>
+    </sql>
+
+	   <!-- updateAssist用于更新数据的使用它拓展自Assist,用于辅助工具类setRequires设置的条件,${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+    <sql id="updateAssist">
+        <where>
+            <foreach collection="assist.require" item="req" separator=" ">
+                ${req.require} #{req.value} <if test="req.suffix != null"> ${req.suffix}</if>
+            </foreach>
+        </where>
+    </sql>
+
+    <!-- 数据库中表名为:Att_Setting_Worker的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="Att_Setting_Worker_Column">
+        Att_Setting_Worker.ID as ID
+        ,Att_Setting_Worker.OFF_WPRK_TIME as OFF_WPRK_TIME
+        ,Att_Setting_Worker.CAMPUS_FK_CODE as CAMPUS_FK_CODE
+        ,Att_Setting_Worker.SIGN_BACK_END_TIME as SIGN_BACK_END_TIME
+        ,Att_Setting_Worker.SIGN_END_TIME as SIGN_END_TIME
+        ,Att_Setting_Worker.ACTIVE_TIME as ACTIVE_TIME
+        ,Att_Setting_Worker.UPDATE_TIME as UPDATE_TIME
+        ,Att_Setting_Worker.ATTENDANCE_DAY as ATTENDANCE_DAY
+        ,Att_Setting_Worker.FK_CODE as FK_CODE
+        ,Att_Setting_Worker.SCHOOL_FK_CODE as SCHOOL_FK_CODE
+        ,Att_Setting_Worker.TO_WORK_TIME as TO_WORK_TIME
+        ,Att_Setting_Worker.INITIATE_MODE as INITIATE_MODE
+        ,Att_Setting_Worker.EXPIRE_TIME as EXPIRE_TIME
+        ,Att_Setting_Worker.DEL_STATUS as DEL_STATUS
+        ,Att_Setting_Worker.SIGN_IN_HOURS_OF_DATE as SIGN_IN_HOURS_OF_DATE
+        ,Att_Setting_Worker.SIGN_OUT_HOURS_OF_DATE as SIGN_OUT_HOURS_OF_DATE
+        ,Att_Setting_Worker.SIGN_BIG_TIME as SIGN_BIG_TIME
+        ,Att_Setting_Worker.CREATE_TIME as CREATE_TIME
+        ,Att_Setting_Worker.SIGN_BACK_BIG_TIME as SIGN_BACK_BIG_TIME
+    </sql>
+
+    <!--获得类名为:AttSettingWorker对应的数据库表的数据总行数 -->
+    <select id="getAttSettingWorkerRowCount" parameterType="com.cd.common.Assist" resultType="java.lang.Long">
+        select count(ID) from Att_Setting_Worker
+        <if test="require!=null"><include refid="Assist" /></if>
+    </select>
+    <!-- 获得类名为:AttSettingWorker对应数据库中表的数据集合 -->
+    <select id="selectAttSettingWorker" parameterType="com.cd.common.Assist"  resultMap="result_AttSettingWorker_Map">
+        select  <if test="distinct !=null">${distinct}</if>
+        <choose>
+            <when test="resultColumn!=null">${resultColumn}</when>
+            <otherwise>
+        <include refid="Att_Setting_Worker_Column" /> 
+            </otherwise>
+        </choose>
+        from Att_Setting_Worker
+        <choose>
+            <when test="rowSize ==null">
+                <if test="require!=null">
+                    <include refid="Assist" />
+                </if>
+                <if test="order !=null">${order}</if>
+            </when>
+            <otherwise>
+                inner join
+                (
+                SELECT ID as primary_key FROM Att_Setting_Worker
+                <if test="require!=null">
+                    <include refid="Assist" />
+                </if>
+                <if test="order !=null">${order}</if>
+                <choose>
+                    <when test="startRow !=null and rowSize !=null">LIMIT #{startRow},#{rowSize} </when>
+                    <when test="rowSize !=null">LIMIT #{rowSize}</when>
+                 </choose>
+                 ) as tmp
+                 on tmp.primary_key=Att_Setting_Worker.ID
+            </otherwise>
+        </choose>
+    </select> 
+
+    <!-- 获得一个AttSettingWorker对象,以参数AttSettingWorker对象中不为空的属性作为条件进行查询-->
+    <select id="selectAttSettingWorkerByObj" parameterType="com.cd.basic.pojo.domain.AttSettingWorker" resultMap="result_AttSettingWorker_Map">
+        select 
+            <include refid="Att_Setting_Worker_Column" /> 
+        from Att_Setting_Worker
+        <where>
+            <if test="signBackBigTime != null "> and Att_Setting_Worker.SIGN_BACK_BIG_TIME = #{signBackBigTime}</if>
+            <if test="createTime != null "> and Att_Setting_Worker.CREATE_TIME = #{createTime}</if>
+            <if test="signBigTime != null "> and Att_Setting_Worker.SIGN_BIG_TIME = #{signBigTime}</if>
+            <if test="signOutHoursOfDate != null "> and Att_Setting_Worker.SIGN_OUT_HOURS_OF_DATE = #{signOutHoursOfDate}</if>
+            <if test="signInHoursOfDate != null "> and Att_Setting_Worker.SIGN_IN_HOURS_OF_DATE = #{signInHoursOfDate}</if>
+            <if test="delStatus != null "> and Att_Setting_Worker.DEL_STATUS = #{delStatus}</if>
+            <if test="expireTime != null "> and Att_Setting_Worker.EXPIRE_TIME = #{expireTime}</if>
+            <if test="initiateMode != null "> and Att_Setting_Worker.INITIATE_MODE = #{initiateMode}</if>
+            <if test="toWorkTime != null "> and Att_Setting_Worker.TO_WORK_TIME = #{toWorkTime}</if>
+            <if test="schoolFkCode != null "> and Att_Setting_Worker.SCHOOL_FK_CODE = #{schoolFkCode}</if>
+            <if test="fkCode != null "> and Att_Setting_Worker.FK_CODE = #{fkCode}</if>
+            <if test="attendanceDay != null "> and Att_Setting_Worker.ATTENDANCE_DAY = #{attendanceDay}</if>
+            <if test="updateTime != null "> and Att_Setting_Worker.UPDATE_TIME = #{updateTime}</if>
+            <if test="activeTime != null "> and Att_Setting_Worker.ACTIVE_TIME = #{activeTime}</if>
+            <if test="signEndTime != null "> and Att_Setting_Worker.SIGN_END_TIME = #{signEndTime}</if>
+            <if test="signBackEndTime != null "> and Att_Setting_Worker.SIGN_BACK_END_TIME = #{signBackEndTime}</if>
+            <if test="campusFkCode != null "> and Att_Setting_Worker.CAMPUS_FK_CODE = #{campusFkCode}</if>
+            <if test="offWprkTime != null "> and Att_Setting_Worker.OFF_WPRK_TIME = #{offWprkTime}</if>
+            <if test="id != null "> and Att_Setting_Worker.ID = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过AttSettingWorker的id获得对应数据库中表的数据对象-->
+    <select id="selectAttSettingWorkerById" parameterType="java.lang.Long" resultMap="result_AttSettingWorker_Map">
+        select 
+            <include refid="Att_Setting_Worker_Column" /> 
+        from Att_Setting_Worker
+        where Att_Setting_Worker.ID = #{id}
+    </select> 
+
+    <!-- 将AttSettingWorker插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertAttSettingWorker" parameterType="com.cd.basic.pojo.domain.AttSettingWorker">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Setting_Worker(ID,OFF_WPRK_TIME,CAMPUS_FK_CODE,SIGN_BACK_END_TIME,SIGN_END_TIME,ACTIVE_TIME,UPDATE_TIME,ATTENDANCE_DAY,FK_CODE,SCHOOL_FK_CODE,TO_WORK_TIME,INITIATE_MODE,EXPIRE_TIME,DEL_STATUS,SIGN_IN_HOURS_OF_DATE,SIGN_OUT_HOURS_OF_DATE,SIGN_BIG_TIME,CREATE_TIME,SIGN_BACK_BIG_TIME) 
+        values(#{id},#{offWprkTime},#{campusFkCode},#{signBackEndTime},#{signEndTime},#{activeTime},#{updateTime},#{attendanceDay},#{fkCode},#{schoolFkCode},#{toWorkTime},#{initiateMode},#{expireTime},#{delStatus},#{signInHoursOfDate},#{signOutHoursOfDate},#{signBigTime},#{createTime},#{signBackBigTime})
+    </insert>
+
+    <!-- 将AttSettingWorker中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyAttSettingWorker" parameterType="com.cd.basic.pojo.domain.AttSettingWorker">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Setting_Worker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="offWprkTime != null">OFF_WPRK_TIME,</if>
+            <if test="campusFkCode != null">CAMPUS_FK_CODE,</if>
+            <if test="signBackEndTime != null">SIGN_BACK_END_TIME,</if>
+            <if test="signEndTime != null">SIGN_END_TIME,</if>
+            <if test="activeTime != null">ACTIVE_TIME,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+            <if test="attendanceDay != null">ATTENDANCE_DAY,</if>
+            <if test="fkCode != null">FK_CODE,</if>
+            <if test="schoolFkCode != null">SCHOOL_FK_CODE,</if>
+            <if test="toWorkTime != null">TO_WORK_TIME,</if>
+            <if test="initiateMode != null">INITIATE_MODE,</if>
+            <if test="expireTime != null">EXPIRE_TIME,</if>
+            <if test="delStatus != null">DEL_STATUS,</if>
+            <if test="signInHoursOfDate != null">SIGN_IN_HOURS_OF_DATE,</if>
+            <if test="signOutHoursOfDate != null">SIGN_OUT_HOURS_OF_DATE,</if>
+            <if test="signBigTime != null">SIGN_BIG_TIME,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="signBackBigTime != null">SIGN_BACK_BIG_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="offWprkTime != null"> #{offWprkTime},</if>
+            <if test="campusFkCode != null"> #{campusFkCode},</if>
+            <if test="signBackEndTime != null"> #{signBackEndTime},</if>
+            <if test="signEndTime != null"> #{signEndTime},</if>
+            <if test="activeTime != null"> #{activeTime},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="attendanceDay != null"> #{attendanceDay},</if>
+            <if test="fkCode != null"> #{fkCode},</if>
+            <if test="schoolFkCode != null"> #{schoolFkCode},</if>
+            <if test="toWorkTime != null"> #{toWorkTime},</if>
+            <if test="initiateMode != null"> #{initiateMode},</if>
+            <if test="expireTime != null"> #{expireTime},</if>
+            <if test="delStatus != null"> #{delStatus},</if>
+            <if test="signInHoursOfDate != null"> #{signInHoursOfDate},</if>
+            <if test="signOutHoursOfDate != null"> #{signOutHoursOfDate},</if>
+            <if test="signBigTime != null"> #{signBigTime},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="signBackBigTime != null"> #{signBackBigTime},</if>
+        </trim>
+    </insert>
+
+    <!-- 将AttSettingWorker批量插入到对应数据库的表中-->
+    <insert id="insertAttSettingWorkerByBatch" parameterType="ArrayList">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Setting_Worker(ID,OFF_WPRK_TIME,CAMPUS_FK_CODE,SIGN_BACK_END_TIME,SIGN_END_TIME,ACTIVE_TIME,UPDATE_TIME,ATTENDANCE_DAY,FK_CODE,SCHOOL_FK_CODE,TO_WORK_TIME,INITIATE_MODE,EXPIRE_TIME,DEL_STATUS,SIGN_IN_HOURS_OF_DATE,SIGN_OUT_HOURS_OF_DATE,SIGN_BIG_TIME,CREATE_TIME,SIGN_BACK_BIG_TIME) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.offWprkTime},#{item.campusFkCode},#{item.signBackEndTime},#{item.signEndTime},#{item.activeTime},#{item.updateTime},#{item.attendanceDay},#{item.fkCode},#{item.schoolFkCode},#{item.toWorkTime},#{item.initiateMode},#{item.expireTime},#{item.delStatus},#{item.signInHoursOfDate},#{item.signOutHoursOfDate},#{item.signBigTime},#{item.createTime},#{item.signBackBigTime})
+        </foreach>
+    </insert>
+
+    <!-- 通过AttSettingWorker的id将数据库表中对应的数据删除-->
+    <delete id="deleteAttSettingWorkerById" parameterType="java.lang.Long">
+        delete from Att_Setting_Worker
+        where ID = #{id}
+    </delete>
+
+    <!-- 通过辅助工具Assist中的条件将AttSettingWorker对应的数据库表的数据删除-->
+    <delete id="deleteAttSettingWorker" parameterType="com.cd.common.Assist">
+        delete from Att_Setting_Worker
+        <if test="require!=null"><include refid="Assist" /></if>
+    </delete>
+
+    <!-- 通过AttSettingWorker的id将AttSettingWorker的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateAttSettingWorkerById" parameterType="com.cd.basic.pojo.domain.AttSettingWorker">
+        update Att_Setting_Worker set
+            OFF_WPRK_TIME=#{offWprkTime}
+            ,CAMPUS_FK_CODE=#{campusFkCode}
+            ,SIGN_BACK_END_TIME=#{signBackEndTime}
+            ,SIGN_END_TIME=#{signEndTime}
+            ,ACTIVE_TIME=#{activeTime}
+            ,UPDATE_TIME=#{updateTime}
+            ,ATTENDANCE_DAY=#{attendanceDay}
+            ,FK_CODE=#{fkCode}
+            ,SCHOOL_FK_CODE=#{schoolFkCode}
+            ,TO_WORK_TIME=#{toWorkTime}
+            ,INITIATE_MODE=#{initiateMode}
+            ,EXPIRE_TIME=#{expireTime}
+            ,DEL_STATUS=#{delStatus}
+            ,SIGN_IN_HOURS_OF_DATE=#{signInHoursOfDate}
+            ,SIGN_OUT_HOURS_OF_DATE=#{signOutHoursOfDate}
+            ,SIGN_BIG_TIME=#{signBigTime}
+            ,CREATE_TIME=#{createTime}
+            ,SIGN_BACK_BIG_TIME=#{signBackBigTime}
+        where ID=#{id}
+    </update>
+
+    <!-- 通过AttSettingWorker的id将AttSettingWorker中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAttSettingWorkerById" parameterType="com.cd.basic.pojo.domain.AttSettingWorker">
+        update Att_Setting_Worker
+        <set>
+            <if test="offWprkTime != null">
+                OFF_WPRK_TIME=#{offWprkTime},
+            </if>
+            <if test="campusFkCode != null">
+                CAMPUS_FK_CODE=#{campusFkCode},
+            </if>
+            <if test="signBackEndTime != null">
+                SIGN_BACK_END_TIME=#{signBackEndTime},
+            </if>
+            <if test="signEndTime != null">
+                SIGN_END_TIME=#{signEndTime},
+            </if>
+            <if test="activeTime != null">
+                ACTIVE_TIME=#{activeTime},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME=#{updateTime},
+            </if>
+            <if test="attendanceDay != null">
+                ATTENDANCE_DAY=#{attendanceDay},
+            </if>
+            <if test="fkCode != null">
+                FK_CODE=#{fkCode},
+            </if>
+            <if test="schoolFkCode != null">
+                SCHOOL_FK_CODE=#{schoolFkCode},
+            </if>
+            <if test="toWorkTime != null">
+                TO_WORK_TIME=#{toWorkTime},
+            </if>
+            <if test="initiateMode != null">
+                INITIATE_MODE=#{initiateMode},
+            </if>
+            <if test="expireTime != null">
+                EXPIRE_TIME=#{expireTime},
+            </if>
+            <if test="delStatus != null">
+                DEL_STATUS=#{delStatus},
+            </if>
+            <if test="signInHoursOfDate != null">
+                SIGN_IN_HOURS_OF_DATE=#{signInHoursOfDate},
+            </if>
+            <if test="signOutHoursOfDate != null">
+                SIGN_OUT_HOURS_OF_DATE=#{signOutHoursOfDate},
+            </if>
+            <if test="signBigTime != null">
+                SIGN_BIG_TIME=#{signBigTime},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME=#{createTime},
+            </if>
+            <if test="signBackBigTime != null">
+                SIGN_BACK_BIG_TIME=#{signBackBigTime},
+            </if>
+        </set>
+        where ID=#{id}
+    </update>
+
+    <!-- 通过辅助工具Assist中的条件将AttSettingWorker中的数据更新到数据库对应的表中,包括值为null的数据-->
+    <update id="updateAttSettingWorker" parameterType="map">
+        update Att_Setting_Worker
+        <set>
+                ID=#{enti.id},
+                OFF_WPRK_TIME=#{enti.offWprkTime},
+                CAMPUS_FK_CODE=#{enti.campusFkCode},
+                SIGN_BACK_END_TIME=#{enti.signBackEndTime},
+                SIGN_END_TIME=#{enti.signEndTime},
+                ACTIVE_TIME=#{enti.activeTime},
+                UPDATE_TIME=#{enti.updateTime},
+                ATTENDANCE_DAY=#{enti.attendanceDay},
+                FK_CODE=#{enti.fkCode},
+                SCHOOL_FK_CODE=#{enti.schoolFkCode},
+                TO_WORK_TIME=#{enti.toWorkTime},
+                INITIATE_MODE=#{enti.initiateMode},
+                EXPIRE_TIME=#{enti.expireTime},
+                DEL_STATUS=#{enti.delStatus},
+                SIGN_IN_HOURS_OF_DATE=#{enti.signInHoursOfDate},
+                SIGN_OUT_HOURS_OF_DATE=#{enti.signOutHoursOfDate},
+                SIGN_BIG_TIME=#{enti.signBigTime},
+                CREATE_TIME=#{enti.createTime},
+                SIGN_BACK_BIG_TIME=#{enti.signBackBigTime},
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+    <!-- 通过辅助工具Assist中的条件将AttSettingWorker中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAttSettingWorker" parameterType="map">
+        update Att_Setting_Worker
+        <set>
+            <if test="enti.id != null">
+                ID=#{enti.id},
+            </if>
+            <if test="enti.offWprkTime != null">
+                OFF_WPRK_TIME=#{enti.offWprkTime},
+            </if>
+            <if test="enti.campusFkCode != null">
+                CAMPUS_FK_CODE=#{enti.campusFkCode},
+            </if>
+            <if test="enti.signBackEndTime != null">
+                SIGN_BACK_END_TIME=#{enti.signBackEndTime},
+            </if>
+            <if test="enti.signEndTime != null">
+                SIGN_END_TIME=#{enti.signEndTime},
+            </if>
+            <if test="enti.activeTime != null">
+                ACTIVE_TIME=#{enti.activeTime},
+            </if>
+            <if test="enti.updateTime != null">
+                UPDATE_TIME=#{enti.updateTime},
+            </if>
+            <if test="enti.attendanceDay != null">
+                ATTENDANCE_DAY=#{enti.attendanceDay},
+            </if>
+            <if test="enti.fkCode != null">
+                FK_CODE=#{enti.fkCode},
+            </if>
+            <if test="enti.schoolFkCode != null">
+                SCHOOL_FK_CODE=#{enti.schoolFkCode},
+            </if>
+            <if test="enti.toWorkTime != null">
+                TO_WORK_TIME=#{enti.toWorkTime},
+            </if>
+            <if test="enti.initiateMode != null">
+                INITIATE_MODE=#{enti.initiateMode},
+            </if>
+            <if test="enti.expireTime != null">
+                EXPIRE_TIME=#{enti.expireTime},
+            </if>
+            <if test="enti.delStatus != null">
+                DEL_STATUS=#{enti.delStatus},
+            </if>
+            <if test="enti.signInHoursOfDate != null">
+                SIGN_IN_HOURS_OF_DATE=#{enti.signInHoursOfDate},
+            </if>
+            <if test="enti.signOutHoursOfDate != null">
+                SIGN_OUT_HOURS_OF_DATE=#{enti.signOutHoursOfDate},
+            </if>
+            <if test="enti.signBigTime != null">
+                SIGN_BIG_TIME=#{enti.signBigTime},
+            </if>
+            <if test="enti.createTime != null">
+                CREATE_TIME=#{enti.createTime},
+            </if>
+            <if test="enti.signBackBigTime != null">
+                SIGN_BACK_BIG_TIME=#{enti.signBackBigTime},
+            </if>
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+</mapper>

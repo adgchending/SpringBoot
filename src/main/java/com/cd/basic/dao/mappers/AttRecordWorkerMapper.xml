@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.basic.dao.AttRecordWorkerDao">
+    <!-- AttRecordWorker的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_AttRecordWorker_Map" type="com.cd.basic.pojo.domain.AttRecordWorker">
+        <id column="ID" property="id" />
+        <result column="WORKER_FK_CODE" property="workerFkCode" />
+        <result column="CARD_CODE" property="cardCode" />
+        <result column="ATTENDANCE_STATUS" property="attendanceStatus" />
+        <result column="DEL_STATUS" property="delStatus" />
+        <result column="ATTENDANCE_TIME" property="attendanceTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="ATTENDANCE_DAY" property="attendanceDay" />
+        <result column="FK_CODE" property="fkCode" />
+        <result column="TYPE" property="type" />
+        <result column="SCHOOL_FK_CODE" property="schoolFkCode" />
+    </resultMap>
+
+	   <!-- Assist用于辅助工具类setRequires设置的条件,${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+    <sql id="Assist">
+        <where>
+            <foreach collection="require" item="req" separator=" ">
+                ${req.require} #{req.value} <if test="req.suffix != null"> ${req.suffix}</if>
+            </foreach>
+        </where>
+    </sql>
+
+	   <!-- updateAssist用于更新数据的使用它拓展自Assist,用于辅助工具类setRequires设置的条件,${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+    <sql id="updateAssist">
+        <where>
+            <foreach collection="assist.require" item="req" separator=" ">
+                ${req.require} #{req.value} <if test="req.suffix != null"> ${req.suffix}</if>
+            </foreach>
+        </where>
+    </sql>
+
+    <!-- 数据库中表名为:Att_Record_Worker的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="Att_Record_Worker_Column">
+        Att_Record_Worker.ID as ID
+        ,Att_Record_Worker.WORKER_FK_CODE as WORKER_FK_CODE
+        ,Att_Record_Worker.CARD_CODE as CARD_CODE
+        ,Att_Record_Worker.ATTENDANCE_STATUS as ATTENDANCE_STATUS
+        ,Att_Record_Worker.DEL_STATUS as DEL_STATUS
+        ,Att_Record_Worker.ATTENDANCE_TIME as ATTENDANCE_TIME
+        ,Att_Record_Worker.CREATE_TIME as CREATE_TIME
+        ,Att_Record_Worker.UPDATE_TIME as UPDATE_TIME
+        ,Att_Record_Worker.ATTENDANCE_DAY as ATTENDANCE_DAY
+        ,Att_Record_Worker.FK_CODE as FK_CODE
+        ,Att_Record_Worker.TYPE as TYPE
+        ,Att_Record_Worker.SCHOOL_FK_CODE as SCHOOL_FK_CODE
+    </sql>
+
+    <!--获得类名为:AttRecordWorker对应的数据库表的数据总行数 -->
+    <select id="getAttRecordWorkerRowCount" parameterType="com.cd.common.Assist" resultType="java.lang.Long">
+        select count(ID) from Att_Record_Worker
+        <if test="require!=null"><include refid="Assist" /></if>
+    </select>
+    <!-- 获得类名为:AttRecordWorker对应数据库中表的数据集合 -->
+    <select id="selectAttRecordWorker" parameterType="com.cd.common.Assist"  resultMap="result_AttRecordWorker_Map">
+        select  <if test="distinct !=null">${distinct}</if>
+        <choose>
+            <when test="resultColumn!=null">${resultColumn}</when>
+            <otherwise>
+        <include refid="Att_Record_Worker_Column" /> 
+            </otherwise>
+        </choose>
+        from Att_Record_Worker
+        <choose>
+            <when test="rowSize ==null">
+                <if test="require!=null">
+                    <include refid="Assist" />
+                </if>
+                <if test="order !=null">${order}</if>
+            </when>
+            <otherwise>
+                inner join
+                (
+                SELECT ID as primary_key FROM Att_Record_Worker
+                <if test="require!=null">
+                    <include refid="Assist" />
+                </if>
+                <if test="order !=null">${order}</if>
+                <choose>
+                    <when test="startRow !=null and rowSize !=null">LIMIT #{startRow},#{rowSize} </when>
+                    <when test="rowSize !=null">LIMIT #{rowSize}</when>
+                 </choose>
+                 ) as tmp
+                 on tmp.primary_key=Att_Record_Worker.ID
+            </otherwise>
+        </choose>
+    </select> 
+
+    <!-- 获得一个AttRecordWorker对象,以参数AttRecordWorker对象中不为空的属性作为条件进行查询-->
+    <select id="selectAttRecordWorkerByObj" parameterType="com.cd.basic.pojo.domain.AttRecordWorker" resultMap="result_AttRecordWorker_Map">
+        select 
+            <include refid="Att_Record_Worker_Column" /> 
+        from Att_Record_Worker
+        <where>
+            <if test="schoolFkCode != null "> and Att_Record_Worker.SCHOOL_FK_CODE = #{schoolFkCode}</if>
+            <if test="type != null "> and Att_Record_Worker.TYPE = #{type}</if>
+            <if test="fkCode != null "> and Att_Record_Worker.FK_CODE = #{fkCode}</if>
+            <if test="attendanceDay != null "> and Att_Record_Worker.ATTENDANCE_DAY = #{attendanceDay}</if>
+            <if test="updateTime != null "> and Att_Record_Worker.UPDATE_TIME = #{updateTime}</if>
+            <if test="createTime != null "> and Att_Record_Worker.CREATE_TIME = #{createTime}</if>
+            <if test="attendanceTime != null "> and Att_Record_Worker.ATTENDANCE_TIME = #{attendanceTime}</if>
+            <if test="delStatus != null "> and Att_Record_Worker.DEL_STATUS = #{delStatus}</if>
+            <if test="attendanceStatus != null "> and Att_Record_Worker.ATTENDANCE_STATUS = #{attendanceStatus}</if>
+            <if test="cardCode != null "> and Att_Record_Worker.CARD_CODE = #{cardCode}</if>
+            <if test="workerFkCode != null "> and Att_Record_Worker.WORKER_FK_CODE = #{workerFkCode}</if>
+            <if test="id != null "> and Att_Record_Worker.ID = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过AttRecordWorker的id获得对应数据库中表的数据对象-->
+    <select id="selectAttRecordWorkerById" parameterType="java.lang.Long" resultMap="result_AttRecordWorker_Map">
+        select 
+            <include refid="Att_Record_Worker_Column" /> 
+        from Att_Record_Worker
+        where Att_Record_Worker.ID = #{id}
+    </select> 
+
+    <!-- 将AttRecordWorker插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertAttRecordWorker" parameterType="com.cd.basic.pojo.domain.AttRecordWorker">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Record_Worker(ID,WORKER_FK_CODE,CARD_CODE,ATTENDANCE_STATUS,DEL_STATUS,ATTENDANCE_TIME,CREATE_TIME,UPDATE_TIME,ATTENDANCE_DAY,FK_CODE,TYPE,SCHOOL_FK_CODE) 
+        values(#{id},#{workerFkCode},#{cardCode},#{attendanceStatus},#{delStatus},#{attendanceTime},#{createTime},#{updateTime},#{attendanceDay},#{fkCode},#{type},#{schoolFkCode})
+    </insert>
+
+    <!-- 将AttRecordWorker中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyAttRecordWorker" parameterType="com.cd.basic.pojo.domain.AttRecordWorker">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Record_Worker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="workerFkCode != null">WORKER_FK_CODE,</if>
+            <if test="cardCode != null">CARD_CODE,</if>
+            <if test="attendanceStatus != null">ATTENDANCE_STATUS,</if>
+            <if test="delStatus != null">DEL_STATUS,</if>
+            <if test="attendanceTime != null">ATTENDANCE_TIME,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+            <if test="attendanceDay != null">ATTENDANCE_DAY,</if>
+            <if test="fkCode != null">FK_CODE,</if>
+            <if test="type != null">TYPE,</if>
+            <if test="schoolFkCode != null">SCHOOL_FK_CODE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="workerFkCode != null"> #{workerFkCode},</if>
+            <if test="cardCode != null"> #{cardCode},</if>
+            <if test="attendanceStatus != null"> #{attendanceStatus},</if>
+            <if test="delStatus != null"> #{delStatus},</if>
+            <if test="attendanceTime != null"> #{attendanceTime},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="attendanceDay != null"> #{attendanceDay},</if>
+            <if test="fkCode != null"> #{fkCode},</if>
+            <if test="type != null"> #{type},</if>
+            <if test="schoolFkCode != null"> #{schoolFkCode},</if>
+        </trim>
+    </insert>
+
+    <!-- 将AttRecordWorker批量插入到对应数据库的表中-->
+    <insert id="insertAttRecordWorkerByBatch" parameterType="ArrayList">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Record_Worker(ID,WORKER_FK_CODE,CARD_CODE,ATTENDANCE_STATUS,DEL_STATUS,ATTENDANCE_TIME,CREATE_TIME,UPDATE_TIME,ATTENDANCE_DAY,FK_CODE,TYPE,SCHOOL_FK_CODE) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.workerFkCode},#{item.cardCode},#{item.attendanceStatus},#{item.delStatus},#{item.attendanceTime},#{item.createTime},#{item.updateTime},#{item.attendanceDay},#{item.fkCode},#{item.type},#{item.schoolFkCode})
+        </foreach>
+    </insert>
+
+    <!-- 通过AttRecordWorker的id将数据库表中对应的数据删除-->
+    <delete id="deleteAttRecordWorkerById" parameterType="java.lang.Long">
+        delete from Att_Record_Worker
+        where ID = #{id}
+    </delete>
+
+    <!-- 通过辅助工具Assist中的条件将AttRecordWorker对应的数据库表的数据删除-->
+    <delete id="deleteAttRecordWorker" parameterType="com.cd.common.Assist">
+        delete from Att_Record_Worker
+        <if test="require!=null"><include refid="Assist" /></if>
+    </delete>
+
+    <!-- 通过AttRecordWorker的id将AttRecordWorker的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateAttRecordWorkerById" parameterType="com.cd.basic.pojo.domain.AttRecordWorker">
+        update Att_Record_Worker set
+            WORKER_FK_CODE=#{workerFkCode}
+            ,CARD_CODE=#{cardCode}
+            ,ATTENDANCE_STATUS=#{attendanceStatus}
+            ,DEL_STATUS=#{delStatus}
+            ,ATTENDANCE_TIME=#{attendanceTime}
+            ,CREATE_TIME=#{createTime}
+            ,UPDATE_TIME=#{updateTime}
+            ,ATTENDANCE_DAY=#{attendanceDay}
+            ,FK_CODE=#{fkCode}
+            ,TYPE=#{type}
+            ,SCHOOL_FK_CODE=#{schoolFkCode}
+        where ID=#{id}
+    </update>
+
+    <!-- 通过AttRecordWorker的id将AttRecordWorker中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAttRecordWorkerById" parameterType="com.cd.basic.pojo.domain.AttRecordWorker">
+        update Att_Record_Worker
+        <set>
+            <if test="workerFkCode != null">
+                WORKER_FK_CODE=#{workerFkCode},
+            </if>
+            <if test="cardCode != null">
+                CARD_CODE=#{cardCode},
+            </if>
+            <if test="attendanceStatus != null">
+                ATTENDANCE_STATUS=#{attendanceStatus},
+            </if>
+            <if test="delStatus != null">
+                DEL_STATUS=#{delStatus},
+            </if>
+            <if test="attendanceTime != null">
+                ATTENDANCE_TIME=#{attendanceTime},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME=#{updateTime},
+            </if>
+            <if test="attendanceDay != null">
+                ATTENDANCE_DAY=#{attendanceDay},
+            </if>
+            <if test="fkCode != null">
+                FK_CODE=#{fkCode},
+            </if>
+            <if test="type != null">
+                TYPE=#{type},
+            </if>
+            <if test="schoolFkCode != null">
+                SCHOOL_FK_CODE=#{schoolFkCode},
+            </if>
+        </set>
+        where ID=#{id}
+    </update>
+
+    <!-- 通过辅助工具Assist中的条件将AttRecordWorker中的数据更新到数据库对应的表中,包括值为null的数据-->
+    <update id="updateAttRecordWorker" parameterType="map">
+        update Att_Record_Worker
+        <set>
+                ID=#{enti.id},
+                WORKER_FK_CODE=#{enti.workerFkCode},
+                CARD_CODE=#{enti.cardCode},
+                ATTENDANCE_STATUS=#{enti.attendanceStatus},
+                DEL_STATUS=#{enti.delStatus},
+                ATTENDANCE_TIME=#{enti.attendanceTime},
+                CREATE_TIME=#{enti.createTime},
+                UPDATE_TIME=#{enti.updateTime},
+                ATTENDANCE_DAY=#{enti.attendanceDay},
+                FK_CODE=#{enti.fkCode},
+                TYPE=#{enti.type},
+                SCHOOL_FK_CODE=#{enti.schoolFkCode},
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+    <!-- 通过辅助工具Assist中的条件将AttRecordWorker中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAttRecordWorker" parameterType="map">
+        update Att_Record_Worker
+        <set>
+            <if test="enti.id != null">
+                ID=#{enti.id},
+            </if>
+            <if test="enti.workerFkCode != null">
+                WORKER_FK_CODE=#{enti.workerFkCode},
+            </if>
+            <if test="enti.cardCode != null">
+                CARD_CODE=#{enti.cardCode},
+            </if>
+            <if test="enti.attendanceStatus != null">
+                ATTENDANCE_STATUS=#{enti.attendanceStatus},
+            </if>
+            <if test="enti.delStatus != null">
+                DEL_STATUS=#{enti.delStatus},
+            </if>
+            <if test="enti.attendanceTime != null">
+                ATTENDANCE_TIME=#{enti.attendanceTime},
+            </if>
+            <if test="enti.createTime != null">
+                CREATE_TIME=#{enti.createTime},
+            </if>
+            <if test="enti.updateTime != null">
+                UPDATE_TIME=#{enti.updateTime},
+            </if>
+            <if test="enti.attendanceDay != null">
+                ATTENDANCE_DAY=#{enti.attendanceDay},
+            </if>
+            <if test="enti.fkCode != null">
+                FK_CODE=#{enti.fkCode},
+            </if>
+            <if test="enti.type != null">
+                TYPE=#{enti.type},
+            </if>
+            <if test="enti.schoolFkCode != null">
+                SCHOOL_FK_CODE=#{enti.schoolFkCode},
+            </if>
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+</mapper>

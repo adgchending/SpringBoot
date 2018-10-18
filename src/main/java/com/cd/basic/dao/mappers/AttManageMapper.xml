@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cd.basic.dao.AttManageDao">
+    <!-- AttManage的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_AttManage_Map" type="com.cd.basic.pojo.domain.AttManage">
+        <id column="ID" property="id" />
+        <result column="CAMPUS_FK_CODE" property="campusFkCode" />
+        <result column="ENABLE_TIME" property="enableTime" />
+        <result column="REMARKS" property="remarks" />
+        <result column="ENABLE" property="enable" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="FK_CODE" property="fkCode" />
+        <result column="SCHOOL_FK_CODE" property="schoolFkCode" />
+        <result column="POSITION" property="position" />
+        <result column="STATUS" property="status" />
+        <result column="DEL_STATUS" property="delStatus" />
+        <result column="PURPOSE" property="purpose" />
+        <result column="DISABLE_TIME" property="disableTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="TYPE" property="type" />
+        <result column="EQUIPMENT_ID" property="equipmentId" />
+    </resultMap>
+
+	   <!-- Assist用于辅助工具类setRequires设置的条件,${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+    <sql id="Assist">
+        <where>
+            <foreach collection="require" item="req" separator=" ">
+                ${req.require} #{req.value} <if test="req.suffix != null"> ${req.suffix}</if>
+            </foreach>
+        </where>
+    </sql>
+
+	   <!-- updateAssist用于更新数据的使用它拓展自Assist,用于辅助工具类setRequires设置的条件,${req.require}表示列名,#{req.value}表示值它是防SQL注入的 -->
+    <sql id="updateAssist">
+        <where>
+            <foreach collection="assist.require" item="req" separator=" ">
+                ${req.require} #{req.value} <if test="req.suffix != null"> ${req.suffix}</if>
+            </foreach>
+        </where>
+    </sql>
+
+    <!-- 数据库中表名为:Att_Manage的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="Att_Manage_Column">
+        Att_Manage.ID as ID
+        ,Att_Manage.CAMPUS_FK_CODE as CAMPUS_FK_CODE
+        ,Att_Manage.ENABLE_TIME as ENABLE_TIME
+        ,Att_Manage.REMARKS as REMARKS
+        ,Att_Manage.ENABLE as ENABLE
+        ,Att_Manage.UPDATE_TIME as UPDATE_TIME
+        ,Att_Manage.FK_CODE as FK_CODE
+        ,Att_Manage.SCHOOL_FK_CODE as SCHOOL_FK_CODE
+        ,Att_Manage.POSITION as POSITION
+        ,Att_Manage.STATUS as STATUS
+        ,Att_Manage.DEL_STATUS as DEL_STATUS
+        ,Att_Manage.PURPOSE as PURPOSE
+        ,Att_Manage.DISABLE_TIME as DISABLE_TIME
+        ,Att_Manage.CREATE_TIME as CREATE_TIME
+        ,Att_Manage.TYPE as TYPE
+        ,Att_Manage.EQUIPMENT_ID as EQUIPMENT_ID
+    </sql>
+
+    <!--获得类名为:AttManage对应的数据库表的数据总行数 -->
+    <select id="getAttManageRowCount" parameterType="com.cd.common.Assist" resultType="java.lang.Long">
+        select count(ID) from Att_Manage
+        <if test="require!=null"><include refid="Assist" /></if>
+    </select>
+    <!-- 获得类名为:AttManage对应数据库中表的数据集合 -->
+    <select id="selectAttManage" parameterType="com.cd.common.Assist"  resultMap="result_AttManage_Map">
+        select  <if test="distinct !=null">${distinct}</if>
+        <choose>
+            <when test="resultColumn!=null">${resultColumn}</when>
+            <otherwise>
+        <include refid="Att_Manage_Column" /> 
+            </otherwise>
+        </choose>
+        from Att_Manage
+        <choose>
+            <when test="rowSize ==null">
+                <if test="require!=null">
+                    <include refid="Assist" />
+                </if>
+                <if test="order !=null">${order}</if>
+            </when>
+            <otherwise>
+                inner join
+                (
+                SELECT ID as primary_key FROM Att_Manage
+                <if test="require!=null">
+                    <include refid="Assist" />
+                </if>
+                <if test="order !=null">${order}</if>
+                <choose>
+                    <when test="startRow !=null and rowSize !=null">LIMIT #{startRow},#{rowSize} </when>
+                    <when test="rowSize !=null">LIMIT #{rowSize}</when>
+                 </choose>
+                 ) as tmp
+                 on tmp.primary_key=Att_Manage.ID
+            </otherwise>
+        </choose>
+    </select> 
+
+    <!-- 获得一个AttManage对象,以参数AttManage对象中不为空的属性作为条件进行查询-->
+    <select id="selectAttManageByObj" parameterType="com.cd.basic.pojo.domain.AttManage" resultMap="result_AttManage_Map">
+        select 
+            <include refid="Att_Manage_Column" /> 
+        from Att_Manage
+        <where>
+            <if test="equipmentId != null "> and Att_Manage.EQUIPMENT_ID = #{equipmentId}</if>
+            <if test="type != null "> and Att_Manage.TYPE = #{type}</if>
+            <if test="createTime != null "> and Att_Manage.CREATE_TIME = #{createTime}</if>
+            <if test="disableTime != null "> and Att_Manage.DISABLE_TIME = #{disableTime}</if>
+            <if test="purpose != null "> and Att_Manage.PURPOSE = #{purpose}</if>
+            <if test="delStatus != null "> and Att_Manage.DEL_STATUS = #{delStatus}</if>
+            <if test="status != null "> and Att_Manage.STATUS = #{status}</if>
+            <if test="position != null "> and Att_Manage.POSITION = #{position}</if>
+            <if test="schoolFkCode != null "> and Att_Manage.SCHOOL_FK_CODE = #{schoolFkCode}</if>
+            <if test="fkCode != null "> and Att_Manage.FK_CODE = #{fkCode}</if>
+            <if test="updateTime != null "> and Att_Manage.UPDATE_TIME = #{updateTime}</if>
+            <if test="enable != null "> and Att_Manage.ENABLE = #{enable}</if>
+            <if test="remarks != null "> and Att_Manage.REMARKS = #{remarks}</if>
+            <if test="enableTime != null "> and Att_Manage.ENABLE_TIME = #{enableTime}</if>
+            <if test="campusFkCode != null "> and Att_Manage.CAMPUS_FK_CODE = #{campusFkCode}</if>
+            <if test="id != null "> and Att_Manage.ID = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过AttManage的id获得对应数据库中表的数据对象-->
+    <select id="selectAttManageById" parameterType="java.lang.Long" resultMap="result_AttManage_Map">
+        select 
+            <include refid="Att_Manage_Column" /> 
+        from Att_Manage
+        where Att_Manage.ID = #{id}
+    </select> 
+
+    <!-- 将AttManage插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertAttManage" parameterType="com.cd.basic.pojo.domain.AttManage">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Manage(ID,CAMPUS_FK_CODE,ENABLE_TIME,REMARKS,ENABLE,UPDATE_TIME,FK_CODE,SCHOOL_FK_CODE,POSITION,STATUS,DEL_STATUS,PURPOSE,DISABLE_TIME,CREATE_TIME,TYPE,EQUIPMENT_ID) 
+        values(#{id},#{campusFkCode},#{enableTime},#{remarks},#{enable},#{updateTime},#{fkCode},#{schoolFkCode},#{position},#{status},#{delStatus},#{purpose},#{disableTime},#{createTime},#{type},#{equipmentId})
+    </insert>
+
+    <!-- 将AttManage中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyAttManage" parameterType="com.cd.basic.pojo.domain.AttManage">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="campusFkCode != null">CAMPUS_FK_CODE,</if>
+            <if test="enableTime != null">ENABLE_TIME,</if>
+            <if test="remarks != null">REMARKS,</if>
+            <if test="enable != null">ENABLE,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+            <if test="fkCode != null">FK_CODE,</if>
+            <if test="schoolFkCode != null">SCHOOL_FK_CODE,</if>
+            <if test="position != null">POSITION,</if>
+            <if test="status != null">STATUS,</if>
+            <if test="delStatus != null">DEL_STATUS,</if>
+            <if test="purpose != null">PURPOSE,</if>
+            <if test="disableTime != null">DISABLE_TIME,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="type != null">TYPE,</if>
+            <if test="equipmentId != null">EQUIPMENT_ID,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="campusFkCode != null"> #{campusFkCode},</if>
+            <if test="enableTime != null"> #{enableTime},</if>
+            <if test="remarks != null"> #{remarks},</if>
+            <if test="enable != null"> #{enable},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="fkCode != null"> #{fkCode},</if>
+            <if test="schoolFkCode != null"> #{schoolFkCode},</if>
+            <if test="position != null"> #{position},</if>
+            <if test="status != null"> #{status},</if>
+            <if test="delStatus != null"> #{delStatus},</if>
+            <if test="purpose != null"> #{purpose},</if>
+            <if test="disableTime != null"> #{disableTime},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="type != null"> #{type},</if>
+            <if test="equipmentId != null"> #{equipmentId},</if>
+        </trim>
+    </insert>
+
+    <!-- 将AttManage批量插入到对应数据库的表中-->
+    <insert id="insertAttManageByBatch" parameterType="ArrayList">
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into Att_Manage(ID,CAMPUS_FK_CODE,ENABLE_TIME,REMARKS,ENABLE,UPDATE_TIME,FK_CODE,SCHOOL_FK_CODE,POSITION,STATUS,DEL_STATUS,PURPOSE,DISABLE_TIME,CREATE_TIME,TYPE,EQUIPMENT_ID) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.campusFkCode},#{item.enableTime},#{item.remarks},#{item.enable},#{item.updateTime},#{item.fkCode},#{item.schoolFkCode},#{item.position},#{item.status},#{item.delStatus},#{item.purpose},#{item.disableTime},#{item.createTime},#{item.type},#{item.equipmentId})
+        </foreach>
+    </insert>
+
+    <!-- 通过AttManage的id将数据库表中对应的数据删除-->
+    <delete id="deleteAttManageById" parameterType="java.lang.Long">
+        delete from Att_Manage
+        where ID = #{id}
+    </delete>
+
+    <!-- 通过辅助工具Assist中的条件将AttManage对应的数据库表的数据删除-->
+    <delete id="deleteAttManage" parameterType="com.cd.common.Assist">
+        delete from Att_Manage
+        <if test="require!=null"><include refid="Assist" /></if>
+    </delete>
+
+    <!-- 通过AttManage的id将AttManage的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateAttManageById" parameterType="com.cd.basic.pojo.domain.AttManage">
+        update Att_Manage set
+            CAMPUS_FK_CODE=#{campusFkCode}
+            ,ENABLE_TIME=#{enableTime}
+            ,REMARKS=#{remarks}
+            ,ENABLE=#{enable}
+            ,UPDATE_TIME=#{updateTime}
+            ,FK_CODE=#{fkCode}
+            ,SCHOOL_FK_CODE=#{schoolFkCode}
+            ,POSITION=#{position}
+            ,STATUS=#{status}
+            ,DEL_STATUS=#{delStatus}
+            ,PURPOSE=#{purpose}
+            ,DISABLE_TIME=#{disableTime}
+            ,CREATE_TIME=#{createTime}
+            ,TYPE=#{type}
+            ,EQUIPMENT_ID=#{equipmentId}
+        where ID=#{id}
+    </update>
+
+    <!-- 通过AttManage的id将AttManage中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAttManageById" parameterType="com.cd.basic.pojo.domain.AttManage">
+        update Att_Manage
+        <set>
+            <if test="campusFkCode != null">
+                CAMPUS_FK_CODE=#{campusFkCode},
+            </if>
+            <if test="enableTime != null">
+                ENABLE_TIME=#{enableTime},
+            </if>
+            <if test="remarks != null">
+                REMARKS=#{remarks},
+            </if>
+            <if test="enable != null">
+                ENABLE=#{enable},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME=#{updateTime},
+            </if>
+            <if test="fkCode != null">
+                FK_CODE=#{fkCode},
+            </if>
+            <if test="schoolFkCode != null">
+                SCHOOL_FK_CODE=#{schoolFkCode},
+            </if>
+            <if test="position != null">
+                POSITION=#{position},
+            </if>
+            <if test="status != null">
+                STATUS=#{status},
+            </if>
+            <if test="delStatus != null">
+                DEL_STATUS=#{delStatus},
+            </if>
+            <if test="purpose != null">
+                PURPOSE=#{purpose},
+            </if>
+            <if test="disableTime != null">
+                DISABLE_TIME=#{disableTime},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME=#{createTime},
+            </if>
+            <if test="type != null">
+                TYPE=#{type},
+            </if>
+            <if test="equipmentId != null">
+                EQUIPMENT_ID=#{equipmentId},
+            </if>
+        </set>
+        where ID=#{id}
+    </update>
+
+    <!-- 通过辅助工具Assist中的条件将AttManage中的数据更新到数据库对应的表中,包括值为null的数据-->
+    <update id="updateAttManage" parameterType="map">
+        update Att_Manage
+        <set>
+                ID=#{enti.id},
+                CAMPUS_FK_CODE=#{enti.campusFkCode},
+                ENABLE_TIME=#{enti.enableTime},
+                REMARKS=#{enti.remarks},
+                ENABLE=#{enti.enable},
+                UPDATE_TIME=#{enti.updateTime},
+                FK_CODE=#{enti.fkCode},
+                SCHOOL_FK_CODE=#{enti.schoolFkCode},
+                POSITION=#{enti.position},
+                STATUS=#{enti.status},
+                DEL_STATUS=#{enti.delStatus},
+                PURPOSE=#{enti.purpose},
+                DISABLE_TIME=#{enti.disableTime},
+                CREATE_TIME=#{enti.createTime},
+                TYPE=#{enti.type},
+                EQUIPMENT_ID=#{enti.equipmentId},
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+    <!-- 通过辅助工具Assist中的条件将AttManage中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAttManage" parameterType="map">
+        update Att_Manage
+        <set>
+            <if test="enti.id != null">
+                ID=#{enti.id},
+            </if>
+            <if test="enti.campusFkCode != null">
+                CAMPUS_FK_CODE=#{enti.campusFkCode},
+            </if>
+            <if test="enti.enableTime != null">
+                ENABLE_TIME=#{enti.enableTime},
+            </if>
+            <if test="enti.remarks != null">
+                REMARKS=#{enti.remarks},
+            </if>
+            <if test="enti.enable != null">
+                ENABLE=#{enti.enable},
+            </if>
+            <if test="enti.updateTime != null">
+                UPDATE_TIME=#{enti.updateTime},
+            </if>
+            <if test="enti.fkCode != null">
+                FK_CODE=#{enti.fkCode},
+            </if>
+            <if test="enti.schoolFkCode != null">
+                SCHOOL_FK_CODE=#{enti.schoolFkCode},
+            </if>
+            <if test="enti.position != null">
+                POSITION=#{enti.position},
+            </if>
+            <if test="enti.status != null">
+                STATUS=#{enti.status},
+            </if>
+            <if test="enti.delStatus != null">
+                DEL_STATUS=#{enti.delStatus},
+            </if>
+            <if test="enti.purpose != null">
+                PURPOSE=#{enti.purpose},
+            </if>
+            <if test="enti.disableTime != null">
+                DISABLE_TIME=#{enti.disableTime},
+            </if>
+            <if test="enti.createTime != null">
+                CREATE_TIME=#{enti.createTime},
+            </if>
+            <if test="enti.type != null">
+                TYPE=#{enti.type},
+            </if>
+            <if test="enti.equipmentId != null">
+                EQUIPMENT_ID=#{enti.equipmentId},
+            </if>
+        </set>
+        <if test="assist.require!=null"><include refid="updateAssist" /></if>
+    </update>
+
+</mapper>
