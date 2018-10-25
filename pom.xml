@@ -178,11 +178,11 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
-        <profile>
-            <id>dep</id>
-            <properties>
-                <activeProperties>dep</activeProperties>
-            </properties>
-        </profile>
+        <!--<profile>-->
+            <!--<id>dep</id>-->
+            <!--<properties>-->
+                <!--<activeProperties>dep</activeProperties>-->
+            <!--</properties>-->
+        <!--</profile>-->
     </profiles>
 </project>
