@@ -40,6 +40,6 @@ public class SchoolController {
     //新增一个请假单
     public Result selectSchoolInfor(@ApiParam(value = "请假事由") @RequestParam String id) {
         BasicSchoolInfor basicSchoolInfor = service.selectBasicSchoolInforById(Long.valueOf(id));
-        return ResultUtil.success(basicSchoolInfor+"lalalalalalaaaaaaaaa");
+        return ResultUtil.success(basicSchoolInfor);
     }
 }
