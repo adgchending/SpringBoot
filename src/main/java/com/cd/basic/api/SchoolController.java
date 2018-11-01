@@ -28,7 +28,7 @@ public class SchoolController {
             case "2":
                 return ResultUtil.success("你好2");
             case "3":
-                return ResultUtil.success("2018-11-1 22:00修改");
+                return ResultUtil.success("2018-11-1 23:00:00修改");
             default:
                 break;
         }
@@ -40,6 +40,6 @@ public class SchoolController {
     //新增一个请假单
     public Result selectSchoolInfor(@ApiParam(value = "请假事由") @RequestParam String id) {
         BasicSchoolInfor basicSchoolInfor = service.selectBasicSchoolInforById(Long.valueOf(id));
-        return ResultUtil.success(basicSchoolInfor);
+        return ResultUtil.success(basicSchoolInfor+"lalalalalalaaaaaaaaa");
     }
 }
