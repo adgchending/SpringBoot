@@ -28,7 +28,7 @@ public class SchoolController {
             case "2":
                 return ResultUtil.success("你好2");
             case "3":
-                return ResultUtil.success("2018-11-1 12:00日修改");
+                return ResultUtil.success("2018-11-1 14:014修改");
             default:
                 break;
         }
