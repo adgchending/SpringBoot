@@ -44,7 +44,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
 
         return new ApiInfoBuilder()
-                .title("SpringBootDemo")
+                .title("SpringBoot")
                 .description("积累才能厚积薄发")
                 .termsOfServiceUrl("http://localhost:8009/swagger-ui.html")
                 .version("1.0")
