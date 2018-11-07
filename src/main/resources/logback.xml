@@ -7,5 +7,5 @@
 
     <!-- mybaits日志的级别，这里的name是mybatis的mapper接口要打印SQL语句的包名，如果要打印多个包的mapper就多配置几个logger -->
     <logger name="com.cd.basic.dao" level="DEBUG"/>
-
+    <logger name="com.cd.shiro.dao" level="DEBUG"/>
 </configuration>
