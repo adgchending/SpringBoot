@@ -15,11 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-/**
- * @Description
- * @Author sgl
- * @Date 2018-06-11 17:07
- */
+
 public class UserRealm extends AuthorizingRealm {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRealm.class);
     @Autowired

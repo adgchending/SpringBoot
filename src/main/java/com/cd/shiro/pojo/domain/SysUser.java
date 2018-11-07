@@ -8,7 +8,6 @@ public class SysUser implements Serializable {
     private String fullName;
     private String password;
     private String salt;
-    private static final long serialVersionUID = 1L;
 
     public Long getUserId() {
         return userId;

@@ -19,7 +19,7 @@ public class IndexController {
     public String index(Model model) {
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         model.addAttribute("userName", sysUser.getFullName());
-        return "/WEB-INF/jsp/index.jsp";
+        return "/index";
 
     }
 }
