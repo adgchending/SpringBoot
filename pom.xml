@@ -144,6 +144,15 @@
                     <include>**/*.xml</include>
                 </includes>
             </resource>
+            <!--将jsp打包-->
+            <resource>
+                <directory>
+                    src/main/webapp
+                </directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
             <!--打包的时候把第三方打包进来-->
             <resource>
                 <directory>lib</directory>

@@ -8,5 +8,8 @@
 </head>
 <body>
     hello ${userName}
+    <form method="post" action="/logout">
+        <input type="submit" value="退出">
+    </form>
 </body>
 </html>

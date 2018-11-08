@@ -1,5 +1,6 @@
 package com.cd.shiro.api;
 
+import com.cd.shiro.pojo.domain.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -11,13 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @Description
- * @Author sgl
- * @Date 2018-06-11 17:51
- */
 @Controller
 public class LoginController {
 
@@ -70,5 +65,19 @@ public class LoginController {
     public String logout() {
         SecurityUtils.getSubject().logout();
         return "login";
+    }
+
+    /**
+     * 首页，并将登录用户的全名返回前台
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = {"/", "/index"})
+    public String index(Model model) {
+        SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        model.addAttribute("userName", sysUser.getFullName());
+        return "/index";
+
     }
 }
