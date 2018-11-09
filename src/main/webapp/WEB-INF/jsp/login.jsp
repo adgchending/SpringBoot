@@ -10,7 +10,7 @@
 <h1>${message}</h1>
 <form method="post" action="/login">
     用户名：<input name="username"><br>
-    密 码：<input name="password"><br>
+    密  码：<input name="password"><br>
     <input type="submit" value="登录">
 </form>
 
