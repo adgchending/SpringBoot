@@ -6,7 +6,6 @@ import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +27,6 @@ public class LoginController {
         }
         return "login";
     }
-
     /**
      * post表单提交，登录
      * @param username
@@ -38,11 +36,10 @@ public class LoginController {
      */
     @PostMapping("/login")
     public Object login(String username, String password, Model model) {
-        Subject user = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             //shiro帮我们匹配密码什么的，我们只需要把东西传给它，它会根据我们在UserRealm里认证方法设置的来验证
-            user.login(token);
+            SecurityUtils.getSubject().login(token);
             return "redirect:index";
         } catch (UnknownAccountException e) {
             //账号不存在和下面密码错误一般都合并为一个账号或密码错误，这样可以增加暴力破解难度
@@ -66,7 +63,6 @@ public class LoginController {
         SecurityUtils.getSubject().logout();
         return "login";
     }
-
     /**
      * 首页，并将登录用户的全名返回前台
      *
