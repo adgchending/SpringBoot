@@ -11,5 +11,8 @@
     <form method="post" action="/logout">
         <input type="submit" value="退出">
     </form>
+    <a href="swagger-ui.html" >
+        <input type="submit" value="点击进入swagger">
+    </a>
 </body>
 </html>

@@ -124,9 +124,8 @@
 
     </dependencies>
 
-
+    <!-- maven默认是不打包源码目录下的xml文件，这会导致mybatis的xml映射文件无法打包到目标文件中 -->
     <build>
-        <!-- maven默认是不打包源码目录下的xml文件，这会导致mybatis的xml映射文件无法打包到目标文件中 -->
         <resources>
             <!--将资源文件夹都打包进来-->
             <resource>
@@ -136,9 +135,8 @@
                 <includes>
                     <include>**/*</include>
                 </includes>
-                <filtering>false</filtering>
             </resource>
-            <!--jsp-->
+            <!--将jsp都打包到resources-->
             <resource>
                 <directory>
                     src/main/webapp
@@ -155,7 +153,7 @@
                     <include>**/*.xml</include>
                 </includes>
             </resource>
-            <!--打包的时候把第三方打包进来-->
+            <!--打包的时候把第三方jar打包进来-->
             <resource>
                 <directory>lib</directory>
                 <targetPath>BOOT-INF/lib</targetPath>
@@ -170,7 +168,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -187,6 +184,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--1.5.7的版本打包检测不到jsp文件,这里用1.4.2的版本-->
                 <version>1.4.2.RELEASE</version>
                 <configuration>
                     <mainClass>com.App</mainClass>
@@ -198,14 +196,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <dependencies>
-                    <!-- spring热部署 -->
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>springloaded</artifactId>
-                        <version>1.2.6.RELEASE</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <plugin>

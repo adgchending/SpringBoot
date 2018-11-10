@@ -12,10 +12,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @Description
- * @Author sgl
- * @Date 2018-06-11 17:23
- */
+* @Param:描述:Shiro配置
+* @return：返回结果描述:
+* @Throws：返回异常结果:
+* @Author: chenshangxian
+* @Date: 2018-11-10 14:21
+*/
 @Configuration
 public class ShiroConfig {
 

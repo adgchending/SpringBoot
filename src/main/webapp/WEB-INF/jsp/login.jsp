@@ -8,11 +8,12 @@
 </head>
 <body>
 <h1>${message}</h1>
-<form method="post" action="/login">
-    用户名：<input name="username"><br>
-    密  码：<input name="password"><br>
-    <input type="submit" value="登录">
-</form>
-
+<div id="form-div">
+    <form id="form1" method="post" action="/login">
+        <p>用户名：<input name="username" type="text" id="txtUserName" tabindex="1" size="15" value=""/></p>
+        <p>密　码：<input name="password" type="password" id="TextBox2" tabindex="2" size="16" value=""/></p>
+        <p><input type="submit" value="登录" onclick="login()">&nbsp;<input type="reset" value="重置"></p>
+    </form>
+</div>
 </body>
 </html>
