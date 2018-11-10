@@ -7,7 +7,7 @@
     <title>登录</title>
 </head>
 <body>
-<h1>${message}</h1>
+<h2>请登录</h2>
 <div id="form-div">
     <form id="form1" method="post" action="/login">
         <p>用户名：<input name="username" type="text" id="txtUserName" tabindex="1" size="15" value=""/></p>
