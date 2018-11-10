@@ -136,14 +136,16 @@
                 <includes>
                     <include>**/*</include>
                 </includes>
+                <filtering>false</filtering>
             </resource>
             <!--jsp-->
             <resource>
                 <directory>
                     src/main/webapp
                 </directory>
+                <targetPath>META-INF/resources</targetPath>
                 <includes>
-                    <include>**/*</include>
+                    <include>**/**</include>
                 </includes>
             </resource>
             <!--将源码包的里面mapper文件都打包进来-->
@@ -180,6 +182,30 @@
                         <extdirs>${project.basedir}/lib</extdirs>
                     </compilerArguments>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.4.2.RELEASE</version>
+                <configuration>
+                    <mainClass>com.App</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <!-- spring热部署 -->
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.6.RELEASE</version>
+                    </dependency>
+                </dependencies>
             </plugin>
 
             <plugin>

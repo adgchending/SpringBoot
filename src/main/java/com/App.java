@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan
 //开启定时任务(让SpringBoot知道你在用定时器)
 @EnableScheduling
-public class App {
+public class App{
 
 	public static void main(String[] args) {
 
