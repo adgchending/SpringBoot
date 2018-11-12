@@ -7,12 +7,19 @@
     <title>首页</title>
 </head>
 <body>
-    hello ${userName}
-    <form method="post" action="/logout">
-        <input type="submit" value="退出">
-    </form>
+<h2>你好! ${userName}</h2>
     <a href="swagger-ui.html" >
         <input type="submit" value="点击进入swagger">
     </a>
+<form method="get" action="/test1">
+    <input type="submit" value="点击进入test1">
+</form>
+<form method="get" action="/test2">
+    <input type="submit" value="点击进入test2">
+</form>
+<form method="post" action="/logout">
+    <input type="submit" value="退出">
+</form>
+
 </body>
 </html>

@@ -3,11 +3,11 @@ package com.cd.shiro.pojo.domain;
 import java.io.Serializable;
 
 public class SysUser implements Serializable {
-    private Long userId;
-    private String userName;
-    private String fullName;
-    private String password;
-    private String salt;
+    private Long userId; //用户表id
+    private String userName; //账号
+    private String fullName; //用户的名字
+    private String password; //密码
+    private String salt; // 盐值
 
     public Long getUserId() {
         return userId;

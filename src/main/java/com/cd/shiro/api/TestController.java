@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class TestController {
-
     /**
      * 没有加shiro权限注解
      * @return
      */
     @RequestMapping("/test1")
     public String test1(){
-        return "test1";
+        return "你拥有进入test1的权限";
     }
 
     /**
@@ -28,7 +27,6 @@ public class TestController {
     @RequestMapping("/test2")
     @RequiresPermissions("systemUserAdd")
     public String test2(){
-        return "test2";
+        return "你拥有进入test2的权限";
     }
-
 }

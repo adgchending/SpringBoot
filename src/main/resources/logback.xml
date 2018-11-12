@@ -5,6 +5,14 @@
     <!--包含SpringBoot的默认配置文件-->
     <include resource="org/springframework/boot/logging/logback/base.xml" />
 
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <!-- mybaits日志的级别，这里的name是mybatis的mapper接口要打印SQL语句的包名，如果要打印多个包的mapper就多配置几个logger -->
     <logger name="com.cd.basic.dao" level="DEBUG"/>
     <logger name="com.cd.shiro.dao" level="DEBUG"/>

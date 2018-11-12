@@ -8,6 +8,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -72,9 +73,19 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+        // 没有登陆的用户只能访问登陆页面
         shiroFilterFactoryBean.setLoginUrl("/login");
-        shiroFilterFactoryBean.setSuccessUrl("/");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
+        // 登录成功后要跳转的链接
+        shiroFilterFactoryBean.setSuccessUrl("/index");
+        //未授权跳转的地址
+        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
+
+        //自定义拦截器
+        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
+        //限制同一帐号同时在线的个数。
+//        filtersMap.put("kickout", kickoutSessionControlFilter());
+//        shiroFilterFactoryBean.setFilters(filtersMap);
+
 
         //注意此处使用的是LinkedHashMap，是有顺序的，shiro会按从上到下的顺序匹配验证，匹配了就不再继续验证
         //所以上面的url要苛刻，宽松的url要放在下面，尤其是"/**"要放到最下面，如果放前面的话其后的验证规则就没作用了。
@@ -97,5 +108,21 @@ public class ShiroConfig {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
+
+    /**
+     * 限制同一账号登录同时登录人数控制
+     *
+     * @return
+     */
+//    @Bean
+//    public KickoutSessionControlFilter kickoutSessionControlFilter() {
+//        KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
+//        kickoutSessionControlFilter.setCacheManager(cacheManager());
+//        kickoutSessionControlFilter.setSessionManager(sessionManager());
+//        kickoutSessionControlFilter.setKickoutAfter(false);
+//        kickoutSessionControlFilter.setMaxSession(1);
+//        kickoutSessionControlFilter.setKickoutUrl("/logout");
+//        return kickoutSessionControlFilter;
+//    }
 
 }

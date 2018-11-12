@@ -40,12 +40,16 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SysUser sysUser = (SysUser) principals.getPrimaryPrincipal();
+        //查询用户权限
         List<String> sysPermissions = sysPermissionService.selectPermissionByUserId(sysUser.getUserId());
 
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.addStringPermissions(sysPermissions);
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        //设置用户权限,可以通过@RequiresPermissions("xxx")注解来限制
+        authorizationInfo.addStringPermissions(sysPermissions);
         LOGGER.info("doGetAuthorizationInfo");
-        return info;
+        LOGGER.info("---- 获取到以下权限 ----");
+        LOGGER.info(authorizationInfo.getStringPermissions().toString());
+        return authorizationInfo;
     }
 
     /**
@@ -63,6 +67,11 @@ public class UserRealm extends AuthorizingRealm {
             return null;
         }
         LOGGER.info("doGetAuthenticationInfo");
-        return new SimpleAuthenticationInfo(sysUser, sysUser.getPassword().toCharArray(), ByteSource.Util.bytes(sysUser.getSalt()), getName());
+        return new SimpleAuthenticationInfo(
+                sysUser,//用户对象
+                sysUser.getPassword().toCharArray(),//密码
+                ByteSource.Util.bytes(sysUser.getSalt()), //盐值
+                getName()//realm name
+        );
     }
 }
