@@ -1,8 +1,6 @@
 package com.cd.basic.pojo.domain;
-
-import java.io.Serializable;
-
-public class BasicSchoolInfor implements Serializable{
+public class BasicSchoolInfor implements java.io.Serializable {
+    private static final long serialVersionUID = 1L;
     private Long id;//主键
     private String schoolName;//学校名
     private Integer remindAuto;//是否自动提醒(1是，0否)最后一个月都提醒
