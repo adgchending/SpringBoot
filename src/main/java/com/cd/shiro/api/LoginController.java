@@ -8,10 +8,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
@@ -41,7 +38,7 @@ public class LoginController {
         try {
             //shiro帮我们匹配密码什么的，我们只需要把东西传给它，它会根据我们在UserRealm里认证方法设置的来验证
             SecurityUtils.getSubject().login(token);
-            return "redirect:index";
+            return "redirect:/index";
         } catch (UnknownAccountException e) {
             //账号不存在和下面密码错误一般都合并为一个账号或密码错误，这样可以增加暴力破解难度
             model.addAttribute("message", "账号不存在！");
@@ -75,5 +72,11 @@ public class LoginController {
         SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
         model.addAttribute("userName", sysUser.getFullName());
         return "index";
+    }
+
+    //被踢出后跳转的页面
+    @RequestMapping(value = "/kickout", method = RequestMethod.GET)
+    public String kickOut() {
+        return "kickout";
     }
 }
