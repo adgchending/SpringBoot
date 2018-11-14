@@ -36,7 +36,8 @@
     <form id="form1" method="post" action="/login">
         <p>用户名：<input name="username" type="text" size="25" value=""/></p>
         <p>密　码：<input name="password" type="password" size="25" value=""/></p>
-        <p><input type="submit" value="登录" onclick="login()">&nbsp;<input type="reset" value="重置"></p>
+        <p><input type="submit" value="登录" onclick="login()" style="width: 200px">
+        </p>
     </form>
 </div>
 </body>
