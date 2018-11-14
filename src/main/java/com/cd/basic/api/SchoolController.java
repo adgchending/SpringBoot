@@ -7,9 +7,12 @@ import com.cd.common.util.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.ibatis.annotations.Param;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/basic")
@@ -35,9 +38,8 @@ public class SchoolController {
         return null;
     }
 
-    @ApiOperation(value = "根据学校id获取学校ini")
+    @ApiOperation(value = "根据学校id获取学校")
     @GetMapping("/basic")
-    //新增一个请假单
     public Result selectSchoolInfor(@ApiParam(value = "请假事由") @RequestParam String id) {
         BasicSchoolInfor basicSchoolInfor = service.selectBasicSchoolInforById(Long.valueOf(id));
         return ResultUtil.success(basicSchoolInfor);

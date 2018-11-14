@@ -6,30 +6,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>登录</title>
     <style>
-        h2, #form-div {
+        #form-div {
             text-align: center;
         }
 
-        h2 {
+        #form-div {
             margin-top: 300px;
         }
 
         body {
-            background-image: url("static/images/fbd0d19a194f59386073edde8e070f8c.jpg");
+            background-image: url("static/images/login.jpg");
             background-repeat: no-repeat;
-            background-size: cover;
+            background-size: 100% 100%;
+        }
+
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        p {
+            color: yellowgreen;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
-<h2>请登录</h2>
 <div id="form-div">
     <form id="form1" method="post" action="/login">
-        <p>用户名：<input name="username" type="text" id="txtUserName" tabindex="1" size="15" value=""/></p>
-        <p>密　码：<input name="password" type="password" id="TextBox2" tabindex="2" size="16" value=""/></p>
+        <p>用户名：<input name="username" type="text" size="25" value=""/></p>
+        <p>密　码：<input name="password" type="password" size="25" value=""/></p>
         <p><input type="submit" value="登录" onclick="login()">&nbsp;<input type="reset" value="重置"></p>
     </form>
-    <%--<img src="static/images/fbd0d19a194f59386073edde8e070f8c.jpg">--%>
 </div>
 </body>
 </html>
