@@ -4,7 +4,8 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>首页</title>
+    <link rel="shortcut icon" href="static/images/title.jpg" type="image/x-icon">
+    <title>SpringBoot</title>
 </head>
 <body>
 <h2>你好! ${userName}</h2>
