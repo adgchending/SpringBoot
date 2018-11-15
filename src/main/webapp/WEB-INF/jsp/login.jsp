@@ -38,7 +38,7 @@
         <p>用户名：<input name="username" type="text" size="25" value="" style="font-family: 楷体"/></p>
         <p>密　码：<input name="password" type="password" size="25" value="" style="font-family: 楷体"/></p>
         <p><input type="submit" value="登    录" onclick="login()"
-                  style="width:175px;margin-left:63px;height: 28px;font-family: 楷体;font-size: 17px">
+                  style="width:181px;margin-left:63px;height: 27px;font-family: 楷体;font-size: 17px">
         </p>
     </form>
 </div>
