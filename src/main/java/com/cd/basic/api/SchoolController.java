@@ -1,18 +1,19 @@
 package com.cd.basic.api;
 
 import com.cd.basic.pojo.domain.BasicSchoolInfor;
+import com.cd.basic.pojo.vo.UserVo;
 import com.cd.basic.service.BasicSchoolInforService;
 import com.cd.common.util.Result;
 import com.cd.common.util.ResultUtil;
+import com.cd.shiro.pojo.domain.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 @RestController
 @RequestMapping("/basic")
@@ -39,9 +40,37 @@ public class SchoolController {
     }
 
     @ApiOperation(value = "根据学校id获取学校")
-    @GetMapping("/basic")
+    @GetMapping("/selectSchool")
     public Result selectSchoolInfor(@ApiParam(value = "请假事由") @RequestParam String id) {
         BasicSchoolInfor basicSchoolInfor = service.selectBasicSchoolInforById(Long.valueOf(id));
         return ResultUtil.success(basicSchoolInfor);
     }
+
+
+    /**
+     * @Param:描述:key值里面的#号代表这是一个SpEL表达式，此表达式可以遍历方法的参数对象，具体语法可以参考Spring的相关文档手册。
+     * @return：返回结果描述:
+     * @Throws：返回异常结果:
+     * @Author: chenshangxian
+     * @Date: 2018-11-16 17:23
+     */
+    @ApiOperation(value = "加数据到redis")
+    @PostMapping("/add")
+    @Cacheable(value = "redis1", key = "#vo.id")
+    public Result add(@RequestBody UserVo vo) {
+        User user = new User();
+        user.setUserId(Long.parseLong(vo.getId()));
+        user.setUserName(vo.getName());
+        user.setUserAge(Integer.parseInt(vo.getAge()));
+        return ResultUtil.success(user);
+    }
+
+    @ApiOperation(value = "从redis删除数据")
+    @PostMapping("/delete")
+    @CacheEvict(value = "redis1", key = "#vo.id")
+    public Result delete(@RequestBody UserVo vo) {
+        String id = vo.getId();
+        return ResultUtil.success(id);
+    }
+
 }

@@ -14,12 +14,12 @@ public class test {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
-    @Test
+    /*@Test
     public void t1() {
         System.out.println("222");
         ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
         stringStringValueOperations.set("testkey", "testvalue");
         String testkey = stringStringValueOperations.get("testkey");
         LOGGER.info(testkey);
-    }
+    }*/
 }

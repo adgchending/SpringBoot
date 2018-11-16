@@ -1,4 +1,4 @@
-package com.cd.common.config;
+package com.cd.common.config.mybatis;
 import java.io.Reader;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
