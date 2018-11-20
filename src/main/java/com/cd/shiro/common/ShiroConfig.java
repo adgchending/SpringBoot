@@ -1,3 +1,4 @@
+/*
 package com.cd.shiro.common;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -16,21 +17,25 @@ import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+*/
 /**
 * @Param:描述:Shiro配置
 * @return：返回结果描述:
 * @Throws：返回异常结果:
 * @Author: chenshangxian
 * @Date: 2018-11-10 14:21
-*/
+*//*
+
 @Configuration
 public class ShiroConfig {
 
-    /**
+    */
+/**
      * 凭证匹配器
      *
      * @return
-     */
+     *//*
+
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
@@ -40,11 +45,13 @@ public class ShiroConfig {
         return hashedCredentialsMatcher;
     }
 
-    /**
+    */
+/**
      * 自定义realm,定义了Shiro的核心配置类
      *
      * @return
-     */
+     *//*
+
     @Bean
     public UserRealm userRealm() {
         UserRealm userRealm = new UserRealm();
@@ -53,12 +60,14 @@ public class ShiroConfig {
         return userRealm;
     }
 
-    /**
+    */
+/**
      * 设置过滤规则
      *
      * @param securityManager
      * @return
-     */
+     *//*
+
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -90,9 +99,11 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-    /*
+    */
+/*
     这个类不加的话不会执行doGetAuthorizationInfo授权方法
-     */
+     *//*
+
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
@@ -100,10 +111,12 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
-    /*
+    */
+/*
     安全管理器
      * 注：使用shiro-spring-boot-starter 1.4时，返回类型是SecurityManager会报错，直接引用shiro-spring则不报错
-     */
+     *//*
+
     @Bean
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -111,10 +124,12 @@ public class ShiroConfig {
         return securityManager;
     }
 
-    /*
+    */
+/*
      配置shiro redisManager
      使用的是shiro-redis开源插件
-     */
+     *//*
+
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost("120.79.63.19");
@@ -125,20 +140,24 @@ public class ShiroConfig {
         return redisManager;
     }
 
-    /*
+    */
+/*
     cacheManager 缓存 redis实现
      * 使用的是shiro-redis开源插件
-     */
+     *//*
+
     public RedisCacheManager cacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
         return redisCacheManager;
     }
 
-    /**
+    */
+/**
      * Session Manager
      * 使用的是shiro-redis开源插件
-     */
+     *//*
+
     @Bean
     public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
@@ -146,10 +165,12 @@ public class ShiroConfig {
         return sessionManager;
     }
 
-    /**
+    */
+/**
      * RedisSessionDAO shiro sessionDao层的实现 通过redis
      * 使用的是shiro-redis开源插件
-     */
+     *//*
+
     @Bean
     public RedisSessionDAO redisSessionDAO() {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
@@ -157,9 +178,11 @@ public class ShiroConfig {
         return redisSessionDAO;
     }
 
-    /*
+    */
+/*
     限制同一账号登录同时登录人数控制
-     */
+     *//*
+
     @Bean
     public KickoutSessionControlFilter kickoutSessionControlFilter() {
         KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
@@ -172,3 +195,4 @@ public class ShiroConfig {
     }
 
 }
+*/

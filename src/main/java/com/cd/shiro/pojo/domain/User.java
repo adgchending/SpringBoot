@@ -1,15 +1,15 @@
 package com.cd.shiro.pojo.domain;
 
 public class User {
-    private Long userId;
+    private String userId;
     private String userName;
-    private Integer userAge;
+    private String userAge;
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -21,11 +21,11 @@ public class User {
         this.userName = userName;
     }
 
-    public Integer getUserAge() {
+    public String getUserAge() {
         return userAge;
     }
 
-    public void setUserAge(Integer userAge) {
+    public void setUserAge(String userAge) {
         this.userAge = userAge;
     }
 }

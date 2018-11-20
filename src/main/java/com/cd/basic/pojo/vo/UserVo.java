@@ -2,7 +2,9 @@ package com.cd.basic.pojo.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class UserVo {
+import java.io.Serializable;
+
+public class UserVo implements Serializable{
     @ApiModelProperty(value = "name",dataType = "String",required = true)
     private String name;
     @ApiModelProperty(value = "id",dataType = "String",required = true)
