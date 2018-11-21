@@ -31,21 +31,21 @@ public class test {
 
     @Test
     public void redis1() {
-        redisTemplate.opsForList().leftPushAll("list","java","c");
-        System.out.println(redisTemplate.opsForList().range("list",0,-1));
-
-        redisTemplate.opsForHash().put("map", "key1", "vale1");
-        System.out.println(redisTemplate.opsForHash().get("map", "key1"));
-
-        HashMap<Object, Object> map = new HashMap<>();
-        map.put("1", "1");
-        map.put("2", "1");
-        map.put("3", "1");
-        redisTemplate.opsForHash().putAll("map1", map);
-        System.out.println(redisTemplate.opsForHash().get("map1","1"));
-
-        redisUtils.set("key1", "value1");
-        System.out.println(redisUtils.get("key1"));
+//        redisTemplate.opsForList().leftPushAll("list","java","c");
+//        System.out.println(redisTemplate.opsForList().range("list",0,-1));
+//
+//        redisTemplate.opsForHash().put("map", "key1", "vale1");
+//        System.out.println(redisTemplate.opsForHash().get("map", "key1"));
+//
+//        HashMap<Object, Object> map = new HashMap<>();
+//        map.put("1", "1");
+//        map.put("2", "1");
+//        map.put("3", "1");
+//        redisTemplate.opsForHash().putAll("map1", map);
+//        System.out.println(redisTemplate.opsForHash().get("map1","1"));
+//
+//        redisUtils.set("key1", "value1");
+//        System.out.println(redisUtils.get("key1"));
 
 
 //        User user = new User();

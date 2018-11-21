@@ -20,7 +20,7 @@ public class SchoolController {
     @Autowired
     BasicSchoolInforService service;
 
-    @ApiOperation(value = "测试")
+    @ApiOperation(value = "测试swagger")
     @GetMapping("/ceshi")
     //新增一个请假单
     public Result addLeaveInfo(@RequestParam String id) {
