@@ -1,6 +1,7 @@
 package com.cd.basic.pojo.vo;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 

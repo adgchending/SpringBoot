@@ -1,4 +1,4 @@
-package com.cd.basic.api;
+package com.cd.redis.api;
 
 import com.cd.basic.pojo.vo.UserVo;
 import com.cd.common.util.Result;

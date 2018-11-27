@@ -1,36 +1,70 @@
 package com.cd.basic.pojo.domain;
+
+import io.swagger.annotations.ApiModelProperty;
+
 public class BasicSchoolInfor implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
+    @ApiModelProperty(value = "主键", dataType = "Long", example = "1")
     private Long id;//主键
+    @ApiModelProperty(value = "学校名", dataType = "String")
     private String schoolName;//学校名
+    @ApiModelProperty(value = "是否自动提醒(1是，0否)最后一个月都提醒", dataType = "Integer", example = "1")
     private Integer remindAuto;//是否自动提醒(1是，0否)最后一个月都提醒
+    @ApiModelProperty(value = "学校占地面积", dataType = "Long", example = "1")
     private Long schoolArea;//学校占地面积
+    @ApiModelProperty(value = "学校所属省份编号", dataType = "Long", example = "1")
     private Long provinceCode;//学校所属省份编号
+    @ApiModelProperty(value = "服务有效的开始时间", dataType = "Long")
     private java.util.Date validStartTime;//服务有效的开始时间
+    @ApiModelProperty(value = "县区名", dataType = "String")
     private String districtName;//县区名
+    @ApiModelProperty(value = "学校邮编", dataType = "Integer")
     private Integer schoolPostcode;//学校邮编
+    @ApiModelProperty(value = "学校创建时间", dataType = "Date")
     private java.util.Date setupTime;//学校创建时间
+    @ApiModelProperty(value = "教育局(Sys_Edu_Bureau)外键唯一标识", dataType = "Long")
     private Long eduBureauFkCode;//教育局(Sys_Edu_Bureau)外键唯一标识
+    @ApiModelProperty(value = "删除状态", dataType = "Integer")
     private Integer delStatus;//删除状态
+    @ApiModelProperty(value = "学校经纬度，格式(22，113)", dataType = "String")
     private String schoolLatlng;//学校经纬度，格式(22，113)
+    @ApiModelProperty(value = "创建时间", dataType = "Date")
     private java.util.Date createTime;//创建时间
+    @ApiModelProperty(value = "学校所属阶段(1幼儿园，2小学，3初中,4高中)如果多个用0隔开，如中幼儿园,小学,初中就是10203", dataType = "Long")
     private Long schoolStages;//学校所属阶段(1幼儿园，2小学，3初中,4高中)如果多个用0隔开，如中幼儿园,小学,初中就是10203
+    @ApiModelProperty(value = "学校简介", dataType = "String")
     private String schoolProfile;//学校简介
+    @ApiModelProperty(value = "学校办学性质(1公办，2私立)", dataType = "Integer")
     private Integer schoolNature;//学校办学性质(1公办，2私立)
+    @ApiModelProperty(value = "学校所属城市代码", dataType = "Long")
     private Long cityCode;//学校所属城市代码
+    @ApiModelProperty(value = "学校地址", dataType = "String")
     private String schoolAddress;//学校地址
+    @ApiModelProperty(value = "学校的图片URL", dataType = "String")
     private String schoolImage;//学校的图片URL
+    @ApiModelProperty(value = "学校编号", dataType = "String")
     private String schoolCode;//学校编号
+    @ApiModelProperty(value = "更新时间", dataType = "Date")
     private java.util.Date updateTime;//更新时间
+    @ApiModelProperty(value = "学校所属省份名", dataType = "String")
     private String provinceName;//学校所属省份名
+    @ApiModelProperty(value = "学校校训", dataType = "String")
     private String schoolMotto;//学校校训
+    @ApiModelProperty(value = "外键唯一标识", dataType = "Long")
     private Long fkCode;//外键唯一标识
+    @ApiModelProperty(value = "服务有效的结束时间", dataType = "Date")
     private java.util.Date validEndTime;//服务有效的结束时间
+    @ApiModelProperty(value = "学校传真", dataType = "String")
     private String schoolFax;//学校传真
+    @ApiModelProperty(value = "学校电话", dataType = "String")
     private String schoolTel;//学校电话
+    @ApiModelProperty(value = "学校所属城市名", dataType = "String")
     private String cityName;//学校所属城市名
+    @ApiModelProperty(value = "县区代码", dataType = "Long")
     private Long districtCode;//县区代码
+    @ApiModelProperty(value = "学校英文名", dataType = "String")
     private String schoolEnglishName;//学校英文名
+
     public BasicSchoolInfor() {
         super();
     }
