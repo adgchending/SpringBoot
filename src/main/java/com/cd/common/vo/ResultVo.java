@@ -79,9 +79,35 @@ public class ResultVo<T> {
         this.msg=returnCode.getMsg();
     }
 
+    private ResultVo(boolean success, String code, String msg) {
+        this.success = success;
+        this.code = code;
+        this.msg = msg;
+    }
 
+
+    /**
+     * 使用系统定义的枚举类型定义返回消息
+     *
+     * @param success    成功状态
+     * @param returnCode 系统定义的返回类型
+     * @param <T>        返回的对象的泛型类型
+     * @return
+     */
     public static <T> ResultVo<T> getInstance(boolean success, ReturnCode returnCode){
-        return new ResultVo<>(success,returnCode);
+        return new ResultVo<>(success, returnCode);
+    }
+
+    /**
+     * 自定返回错误类型
+     *
+     * @param success 成功状态
+     * @param msg     返回的信息
+     * @param <T>     返回的对象的泛型类型
+     * @return
+     */
+    public static <T> ResultVo<T> getInstance(boolean success, String msg) {
+        return new ResultVo<>(success, "9998", msg);
     }
 
 
@@ -89,7 +115,7 @@ public class ResultVo<T> {
         return new ResultVo();
     }
 
-//
+    //
     public  ResultVo settingObjectData(T data){
         this.data=data;
         return this;
