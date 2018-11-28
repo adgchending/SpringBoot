@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 接口公用返回值
- * @author  marsLV
+ * @author  chenshangxian
  */
 @ApiModel
 public class ResultVo<T> {

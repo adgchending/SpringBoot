@@ -41,7 +41,7 @@ public class SchoolController {
 
     @ApiOperation(value = "根据学校id获取学校")
     @GetMapping(value = "/selectSchool", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultVo selectSchoolInfor(@ApiParam(value = "学校id", required = true)
+    public ResultVo<BasicSchoolInfor> selectSchoolInfor(@ApiParam(value = "学校id", required = true)
                                                             @RequestParam String id) {
         BasicSchoolInfor vo = service.selectBasicSchoolInforById(Long.valueOf(id));
         if (vo != null) {
@@ -50,5 +50,4 @@ public class SchoolController {
             return ResultVo.getInstance(Boolean.FALSE, "查询无数据");
         }
     }
-
 }

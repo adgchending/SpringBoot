@@ -7,8 +7,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 /**
- * 这个方法是所有的page封装对象需要继承的类，参考实现示例com.es.app_common.po.PageVoExample
- * @author mars_lv
+ * 这个方法是所有的page封装对象需要继承的类
+ * 用法
+ * ResultVo<PageVo<xxxxxxvo>>   这里的xxxxvo就是 返回的list
+ * @author chenshangxian
  */
 @ApiModel
 public class PageVo<T> {
@@ -82,11 +84,11 @@ public class PageVo<T> {
                                      List<T> records) {
         long tp = 0;
         // 如果页数不整除，页数加1
-        if (count % pageSize > 0)
+        if (count % pageSize > 0) {
             tp = count / pageSize + 1;
-        else
+        } else {
             tp = count / pageSize;
-
+        }
         return new PageVo(pageNo.toString(), pageSize.toString(), String.valueOf(tp), count.toString(), pageNo == 1, pageNo == tp,
                 records);
     }
