@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import java.io.Serializable;
 
 public class UserVo implements Serializable{
-    @ApiModelProperty(value = "name",dataType = "String",required = true)
+    @ApiModelProperty(value = "名字", dataType = "String", required = true)
     private String name;
     @ApiModelProperty(value = "id",dataType = "String",required = true)
     private String id;//当前页
-    @ApiModelProperty(value = "age",dataType = "String",required = true)
+    @ApiModelProperty(value = "年龄", dataType = "String", required = true)
     private String age;
 
     public String getName() {

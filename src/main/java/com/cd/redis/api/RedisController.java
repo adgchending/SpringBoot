@@ -1,8 +1,7 @@
 package com.cd.redis.api;
 
 import com.cd.basic.pojo.vo.UserVo;
-import com.cd.common.util.Result;
-import com.cd.common.util.ResultUtil;
+import com.cd.common.vo.ResultVo;
 import com.cd.redis.util.RedisUtils;
 import com.cd.shiro.pojo.domain.User;
 import io.swagger.annotations.Api;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/redis")
-@Api(tags = "redis")
+@Api(tags = "redis相关操作")
 public class RedisController {
     @Autowired
     RedisTemplate redisTemplate;
@@ -34,22 +33,22 @@ public class RedisController {
     @ApiOperation(value = "加数据到redis")
     @PostMapping("/add")
     @Cacheable(value = "redis1", key = "#vo.id")
-    public Result add(@RequestBody UserVo vo) {
+    public ResultVo add(@RequestBody UserVo vo) {
         User user = new User();
         user.setUserId(vo.getId());
         user.setUserName(vo.getName());
         user.setUserAge(vo.getAge());
-        return ResultUtil.success(user);
+        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(user);
     }
 
     @ApiOperation(value = "从redis删除数据")
     @PostMapping("/delete")
     //@CacheEvict(value = "redis1", key = "#vo.id")
-    public Result delete(@RequestBody UserVo vo) {
+    public ResultVo delete(@RequestBody UserVo vo) {
         redisTemplate.opsForValue().set("user",vo);
 
         String id = vo.getId();
-        return ResultUtil.success(id);
+        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(id);
     }
 
     /*@ApiOperation(value = "操作String")

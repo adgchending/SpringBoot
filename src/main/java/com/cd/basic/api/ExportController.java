@@ -14,10 +14,9 @@ import com.cd.basic.service.BasicSchoolInforService;
 import com.cd.basic.service.BuildingServiceCustom;
 import com.cd.common.Assist;
 import com.cd.common.util.ExcelUtil;
-import com.cd.common.util.Result;
-import com.cd.common.util.ResultUtil;
 import com.cd.common.util.SnowFlake;
 import com.cd.common.vo.ExportExcelParam;
+import com.cd.common.vo.ResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.*;
@@ -53,7 +52,7 @@ public class ExportController {
 
     @ApiOperation(value = "easyPoi导出")
     @GetMapping("/out")
-    public Result daochu(String id, HttpServletRequest request, HttpServletResponse response) {
+    public ResultVo daochu(String id, HttpServletRequest request, HttpServletResponse response) {
         BasicSchoolInfor basicSchoolInfor = service.selectBasicSchoolInforById(Long.valueOf(id));
         BasicSchoolInforBo basicSchoolInforBo = new BasicSchoolInforBo();
         BeanUtils.copyProperties(basicSchoolInfor, basicSchoolInforBo);
@@ -76,7 +75,7 @@ public class ExportController {
         param.setResponse(response);
 
         boolean flag = ExcelUtil.ExportExcel(param);
-        return ResultUtil.success(1);
+        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(1);
     }
 
 
@@ -89,7 +88,7 @@ public class ExportController {
     //模版在resources文件夹excel下
     @ApiOperation(value = "easyPoi导入建筑")
     @PostMapping("/in")
-    public Result importBuild(MultipartFile file, String campusFkCode) {
+    public ResultVo importBuild(MultipartFile file, String campusFkCode) {
 
         Assist assist = new Assist();
         assist.setRequires(Assist.andEq("CAMPUS_FK_CODE", campusFkCode));
@@ -142,14 +141,14 @@ public class ExportController {
 
 
         if (listError.size() > 0) {
-            return new Result("dataError", "导入数据错误", listError);
+            return ResultVo.getInstance(Boolean.FALSE, "导入数据错误");
         }
 
         int i = basicBuildingService.insertBasicBuildingByBatch(list);
         if (i > 0) {
-            return ResultUtil.success();
+            return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS);
         } else {
-            return ResultUtil.error("批量导入异常!");
+            return ResultVo.getInstance(Boolean.FALSE, "导入数据错误");
         }
 
     }
@@ -170,7 +169,7 @@ public class ExportController {
      */
     @ApiOperation(value = "easyPoi导出建筑模版")
     @GetMapping("/out/budding")
-    public Result exportTemplate(HttpServletRequest request, HttpServletResponse response, String schoolFkCode) {
+    public ResultVo exportTemplate(HttpServletRequest request, HttpServletResponse response, String schoolFkCode) {
         boolean flag = true;
         /**
          * 导入操作:1.导出模版,2.用户填写模版然后上传模版
@@ -292,9 +291,9 @@ public class ExportController {
         } catch (IOException e) {
             e.printStackTrace();
             flag = false;
-            return ResultUtil.success(flag);
+            return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(flag);
         }
-        return ResultUtil.success(flag);
+        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(flag);
     }
 
     public static void genearteOtherSheet(Workbook wb, String[] typeArrays,int column) {
