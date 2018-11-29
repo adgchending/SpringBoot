@@ -9,14 +9,17 @@
 </head>
 <body>
 <h2>你好! ${userName}</h2>
-    <a href="swagger-ui.html" >
-        <input type="submit" value="点击进入swagger">
-    </a>
+<form method="get" action="swagger-ui.html">
+    <input type="submit" value="点击进入swagger">
+</form>
+<a href="modeler.html?modelId=1">
+    <input type="submit" value="点击进入activiti">
+</a>
 <form method="get" action="/test1">
-    <input type="submit" value="点击进入test1">
+    <input type="submit" value="测试shiro(test1)">
 </form>
 <form method="get" action="/test2">
-    <input type="submit" value="点击进入test2">
+    <input type="submit" value="测试shiro(test2)">
 </form>
 <form method="post" action="/logout">
     <input type="submit" value="退出">

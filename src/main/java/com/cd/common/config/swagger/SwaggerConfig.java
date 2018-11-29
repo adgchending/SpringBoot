@@ -46,7 +46,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("SpringBoot")
                 .description("积累才能厚积薄发")
-                .termsOfServiceUrl("http://localhost:8089/swagger-ui.html")
+                .termsOfServiceUrl("http://localhost:8088/swagger-ui.html")
                 .version("1.0")
                 .contact(new Contact("陈尚贤", "", "532780035@qq.com"))
                 .build();
