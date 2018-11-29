@@ -41,7 +41,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/export")
-@Api(tags = "导出和导入")
+@Api(tags = "EasyPOI导入和导出")
 public class ExportController {
     @Autowired
     BasicSchoolInforService service;

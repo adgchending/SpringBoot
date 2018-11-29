@@ -173,6 +173,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
+            <!--必须加上版本号,不加的话和activiti的jar包冲突-->
             <version>7.0.59</version>
             <scope>provided</scope>
         </dependency>

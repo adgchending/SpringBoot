@@ -36,6 +36,7 @@ import java.util.Arrays;
 public class RedisConfig extends CachingConfigurerSupport {
     @SuppressWarnings("rawtypes")
     @Bean
+    //redis的注解开发配置
     //参数名必须为redisTemplate,有待研究~~~
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
