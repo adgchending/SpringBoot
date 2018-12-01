@@ -34,11 +34,11 @@ public class test {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
-    //@Test
-//    public void redis1() {
-////根据课表开始时间判断是单周还是双周
-//
-//    }
+    @Test
+    public void redis1() {
+    //根据课表开始时间判断是单周还是双周
+
+    }
 
 
 }

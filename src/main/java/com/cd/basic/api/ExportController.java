@@ -52,7 +52,7 @@ public class ExportController {
 
     @ApiOperation(value = "easyPoi导出")
     @GetMapping("/out")
-    public ResultVo daochu(String id, HttpServletRequest request, HttpServletResponse response) {
+    public boolean daochu(String id, HttpServletRequest request, HttpServletResponse response) {
         BasicSchoolInfor basicSchoolInfor = service.selectBasicSchoolInforById(Long.valueOf(id));
         BasicSchoolInforBo basicSchoolInforBo = new BasicSchoolInforBo();
         BeanUtils.copyProperties(basicSchoolInfor, basicSchoolInforBo);
@@ -60,22 +60,22 @@ public class ExportController {
         ArrayList<BasicSchoolInforBo> basicSchoolInforBos = new ArrayList<BasicSchoolInforBo>();
         basicSchoolInforBos.add(basicSchoolInforBo);
 
-        String title = "你哈";
+        //String title = "你哈";
 
-        ExportParams exportParams = new ExportParams(title, "文件名随便来个");
+        ExportParams exportParams = new ExportParams(null, "建筑信息");
 
         exportParams.setType(ExcelType.XSSF);
         //定义excel生成格式
         ExportExcelParam param = new ExportExcelParam();
         param.setClassName("com.cd.basic.pojo.bo.BasicSchoolInforBo");
-        param.setFileName("文件名随便来个");
+        param.setFileName("建筑信息");
         param.setList(basicSchoolInforBos);
         param.setExportParams(exportParams);
         param.setRequest(request);
         param.setResponse(response);
 
         boolean flag = ExcelUtil.ExportExcel(param);
-        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(1);
+        return flag;
     }
 
 
