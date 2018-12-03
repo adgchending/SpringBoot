@@ -24,6 +24,7 @@
 <form method="post" action="/logout">
     <input type="submit" value="退出">
 </form>
-
+<img src="http://www.chenshangxian.cn:8088/Users/chenshangxian/Downloads/tmp/2018/12/3/4e04fa60-da51-4c94-a04e-c2847e620539.jpg">
+<img src="http://www.chenshangxian.cn:8088/img/2018/12/3/4e04fa60-da51-4c94-a04e-c2847e620539.jpg">
 </body>
 </html>
