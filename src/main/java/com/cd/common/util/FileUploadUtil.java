@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
-@Api(tags = "文件上传通过Nginx回显(81端口)", description = "统一文件上传和下载API")
+@Api(tags = "文件上传通过Nginx回显(:81端口)", description = "统一文件上传和下载API")
 public class FileUploadUtil {
     private final Logger logger = LoggerFactory.getLogger(FileUploadUtil.class);
 
