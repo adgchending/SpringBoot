@@ -207,7 +207,7 @@ public class ExcelUtil {
             if (StringUtils.contains(userAgent, "MSIE")) {//IE浏览器
                 fileName = URLEncoder.encode(fileName, "UTF8");
             } else if (StringUtils.contains(userAgent, "Mozilla")) {//google,火狐浏览器
-                fileName = new String(fileName.getBytes(), "ISO8859-1");
+                fileName = new String(fileName.getBytes("UTF8"), "ISO8859-1");
             } else {
                 fileName = URLEncoder.encode(fileName, "UTF8");//其他浏览器
             }
