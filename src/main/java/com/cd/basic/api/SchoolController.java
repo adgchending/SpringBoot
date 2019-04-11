@@ -9,10 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,4 +34,12 @@ public class SchoolController {
             return ResultVo.getInstance(Boolean.FALSE, "查询无数据");
         }
     }
+
+//    @ApiOperation(value = "ceshi")
+//    @GetMapping(value = "/ceshi", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    public ResultVo<SchoolBo> ceshi(@RequestBody SchoolVo vo) {
+//        SchoolBo ceshi = schoolServer.ceshi(vo);
+//        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(ceshi);
+//    }
+
 }
