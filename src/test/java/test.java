@@ -35,9 +35,8 @@ public class test {
     StringRedisTemplate stringRedisTemplate;
 
     @Test
-    public void redis1() {
-    //根据课表开始时间判断是单周还是双周
-
+    public static void main(String[] args) {
+        System.out.printf("123");
     }
 
 
