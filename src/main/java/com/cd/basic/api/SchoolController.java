@@ -20,7 +20,7 @@ public class SchoolController {
     @Autowired
     BasicSchoolInforService service;
 
-    @ApiOperation(value = "根据学校id获取学校")
+    @ApiOperation(value = "根据学校id获取学校111")
     @GetMapping(value = "/select-school-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultVo<BasicSchoolInfor> selectSchoolInfor(@ApiParam(value = "学校id", required = true) @RequestParam String id) {
         Assist assist = new Assist();
