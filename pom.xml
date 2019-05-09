@@ -254,18 +254,18 @@
             <version>5.22.0</version>
         </dependency>
         <!--sql server-->
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>sqljdbc4</artifactId>
-            <scope>4.0</scope>
-            <version>4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>6.2.0.jre8</version>
-            <scope>runtime</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.microsoft.sqlserver</groupId>-->
+            <!--<artifactId>sqljdbc4</artifactId>-->
+            <!--<scope>4.0</scope>-->
+            <!--<version>4.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.microsoft.sqlserver</groupId>-->
+            <!--<artifactId>mssql-jdbc</artifactId>-->
+            <!--<version>6.2.0.jre8</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
     </dependencies>
 
     <!-- maven默认是不打包源码目录下的xml文件，这会导致mybatis的xml映射文件无法打包到目标文件中 -->
