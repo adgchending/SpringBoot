@@ -122,9 +122,9 @@ public class ExportController {
                     for (BasicBuilding building : basicBuildings) {
                         if (building.getBuildingName().equals(entity.getName())) {
                             //同类型的建筑名称不能相同
-                            if (building.getBuildingType().toString().equals(this.splitStr(entity.getType()))) {
-                                listError.add("同一大楼类型的大楼名称不能重名" + "类型:(" + entity.getType() + ")中已经存在名称为:(" + entity.getName() + ")的建筑");
-                            }
+//                            if (building.getBuildingType().toString().equals(this.splitStr(entity.getType()))) {
+//                                listError.add("同一大楼类型的大楼名称不能重名" + "类型:(" + entity.getType() + ")中已经存在名称为:(" + entity.getName() + ")的建筑");
+//                            }
                         }
                     }
                     basicBuilding.setBuildingLayer(Long.parseLong(entity.getLayer()));
