@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/school-info")
-@Api(tags = "学校信息")
+@Api(tags = "学校信息嘻嘻")
 public class SchoolController {
     @Autowired
     BasicSchoolInforService service;
