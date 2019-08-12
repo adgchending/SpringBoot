@@ -127,7 +127,8 @@ public class FileUploadUtil {
     public String upload(byte[] fileByte, String fileName, Boolean isImg) {
 
         // 文件存储目标文件夹
-        String targetFoldre = "/Users/chenshangxian/Downloads/tmp/";
+        //String targetFoldre = "/Users/chenshangxian/Downloads/tmp/";
+        String targetFoldre = "E:\\tmp";
 
         // System.out.println("path="+targetFoldre);
         // 我们用当前时间的来分割三个文件夹yyyy/MM/dd格式的

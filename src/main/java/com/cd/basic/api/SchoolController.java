@@ -1,7 +1,10 @@
 package com.cd.basic.api;
 
+import com.cd.basic.pojo.bo.BasicSchoolInforBo;
 import com.cd.basic.pojo.domain.BasicSchoolInfor;
+import com.cd.basic.pojo.vo.SchoolVo;
 import com.cd.basic.service.BasicSchoolInforService;
+import com.cd.basic.service.SchoolService;
 import com.cd.common.Assist;
 import com.cd.common.vo.ResultVo;
 import io.swagger.annotations.Api;
@@ -13,12 +16,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @类名:SchoolController
+ * @类描述:
+ * @创建日期: 2019/8/12
+ * @修改记录:
+ * <pre>
+ *    修改日期：
+ *    版 本 号：
+ *    修 改 人：
+ *    修改内容：
+ * </pre>
+ * @author: csx
+ */
 @RestController
 @RequestMapping("/school-info")
-@Api(tags = "学校信息嘻嘻")
+@Api(tags = "学校信息")
 public class SchoolController {
     @Autowired
     BasicSchoolInforService service;
+    @Autowired
+    SchoolService schoolService;
 
     @ApiOperation(value = "根据学校id获取学校")
     @GetMapping(value = "/select-school-info", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -35,11 +53,18 @@ public class SchoolController {
         }
     }
 
-//    @ApiOperation(value = "ceshi")
-//    @GetMapping(value = "/ceshi", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    public ResultVo<SchoolBo> ceshi(@RequestBody SchoolVo vo) {
-//        SchoolBo ceshi = schoolServer.ceshi(vo);
-//        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(ceshi);
-//    }
+    @ApiOperation(value = "根据学校id获取学校(测试多数据源1)")
+    @PostMapping(value = "/ceshi", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultVo<BasicSchoolInforBo> muchDataBases(@RequestBody SchoolVo vo) {
+        BasicSchoolInforBo basicSchoolInforBo = schoolService.muchDataBases(vo);
+        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(basicSchoolInforBo);
+    }
+
+    @ApiOperation(value = "根据学校id获取学校(测试多数据源2)")
+    @PostMapping(value = "/dataSourse", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultVo<BasicSchoolInforBo> dataSourse(@RequestBody SchoolVo vo) {
+        BasicSchoolInforBo basicSchoolInforBo = schoolService.dataSourse(vo);
+        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(basicSchoolInforBo);
+    }
 
 }

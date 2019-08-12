@@ -184,6 +184,19 @@
             <version>3.0.2</version>
         </dependency>
 
+        <!--lombok插件-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!--多数据源-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.31</version>
+        </dependency>
+
         <!--activiti工作流-->
         <dependency>
             <groupId>org.activiti</groupId>
