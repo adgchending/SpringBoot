@@ -15,8 +15,10 @@ public class JsonpCallbackFilter implements Filter {
 
   private static Logger log = LoggerFactory.getLogger(JsonpCallbackFilter.class);
 
+  @Override
   public void init(FilterConfig fConfig) throws ServletException {}
 
+  @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -52,5 +54,6 @@ public class JsonpCallbackFilter implements Filter {
     }
   }
 
+  @Override
   public void destroy() {}
 }
