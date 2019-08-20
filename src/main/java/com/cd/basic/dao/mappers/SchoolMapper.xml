@@ -8,4 +8,15 @@
     <select id="muchDataBases" resultMap="muchDataBasesRM">
         SELECT SCHOOL_NAME FROM basic_school_infor WHERE basic_school_infor.ID = #{ID}
     </select>
+
+    <insert id="insertList" parameterType="arraylist">
+        insert into student(name,age)values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.name},#{item.age})
+        </foreach>
+    </insert>
+
+    <insert id="insert" parameterType="com.cd.basic.pojo.vo.StudentVo">
+         insert into student(name,age) values (#{name},#{age});
+    </insert>
 </mapper>
