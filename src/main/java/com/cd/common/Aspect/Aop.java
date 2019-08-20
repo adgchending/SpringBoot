@@ -17,15 +17,15 @@ public class Aop {
     private static final Logger LOGGER = LoggerFactory.getLogger(Aop.class);
 
 
-    /*
-    定义切点
+    /**
+     * 定义切点
      */
     @Pointcut(value = "execution(* com.cd.*.api.*.*(..))")
     public void point() {
     }
 
-    /*
-    定义前置通知
+    /**
+     *  定义前置通知
      */
     @Before("point()")
     public void adviceBefore() {

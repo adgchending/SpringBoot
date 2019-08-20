@@ -1,12 +1,11 @@
-package com.cd.basic.pojo.vo;
+package com.cd.basic.pojo.bo;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class StudentVo {
+public class StudentBo {
     private String name;
     private int age;
-    private String sex = "男";
 }

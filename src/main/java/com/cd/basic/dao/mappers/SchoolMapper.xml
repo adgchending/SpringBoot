@@ -1,18 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cd.basic.dao.SchoolDao">
-    <resultMap id="muchDataBasesRM" type="com.cd.basic.pojo.bo.BasicSchoolInforBo">
-        <result property="schoolName" column="SCHOOL_NAME"/>
-    </resultMap>
+    <!--<resultMap id="muchDataBasesRM" type="com.cd.basic.pojo.bo.BasicSchoolInforBo">-->
+        <!--<result property="schoolName" column="SCHOOL_NAME"/>-->
+    <!--</resultMap>-->
 
-    <select id="muchDataBases" resultMap="muchDataBasesRM">
-        SELECT SCHOOL_NAME FROM basic_school_infor WHERE basic_school_infor.ID = #{ID}
+    <insert id="add" parameterType="arraylist">
+        insert into student(
+            name,age,sex
+        )values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.name},#{item.age}, #{item.sex}
+            )
+        </foreach>
+    </insert>
+
+    <select id="muchDataBases" resultType="com.cd.basic.pojo.bo.StudentBo">
+        SELECT name ,age FROM student WHERE id = #{id}
     </select>
 
     <insert id="insertList" parameterType="arraylist">
-        insert into student(name,age)values
+        insert into student(
+        <if test="name!=''and name!=null">
+            name,
+        </if>
+        age)values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.name},#{item.age})
+            (
+
+                #{item.name},
+
+            #{item.age})
         </foreach>
     </insert>
 

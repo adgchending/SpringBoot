@@ -1,15 +1,15 @@
 package com.cd.basic.service;
 
-import com.cd.basic.pojo.bo.BasicSchoolInforBo;
-import com.cd.basic.pojo.vo.SchoolVo;
+import com.cd.basic.pojo.bo.StudentBo;
 import com.cd.basic.pojo.vo.StudentVo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface SchoolService {
-    BasicSchoolInforBo muchDataBases(SchoolVo vo);
+    int muchDataBases(List<StudentVo> vo);
 
-    BasicSchoolInforBo dataSourse(SchoolVo vo);
+    StudentBo dataSourse(String id);
 
     boolean insertList(ArrayList<StudentVo> studentVos);
 
