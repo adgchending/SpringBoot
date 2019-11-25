@@ -138,28 +138,32 @@ public class SchoolController {
         return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(vo);
     }
 
+    /**
+     * @方法描述: 多线程新增大量数据
+     * @创建日期: 2019/11/25
+     * @author: csx
+     */
     @ApiOperation(value = "测试多线程新增(一次新增10w条数据,耗时13秒)")
     @GetMapping(value = "/insertTrade", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Transactional(rollbackFor = Exception.class)
-    public void insertTrade() {
-
+    public ResultVo insertTrade() {
         List<StudentBo> bos = new ArrayList<>();
         //新增10W条数据耗时13秒
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 30000; i++) {
             String name = "张三" + i;
             StudentBo studentBo = new StudentBo();
             studentBo.setName(name);
             studentBo.setAge(i);
             bos.add(studentBo);
         }
-
+        long start = System.currentTimeMillis();
         try {
-            long start = System.currentTimeMillis();
-            System.out.println(start);
+            //建立驱动
             Connection conn = null;
             String url = "jdbc:mysql://127.0.0.1:3306/springboot?useUnicode=true&useSSL=false&characterEncoding=utf8";
             String username = "root";
             String password = "root";
+            //加载驱动建立连接
             conn = DriverManager.getConnection(url, username, password);
             conn.setAutoCommit(false);
             PreparedStatement ps = null;
@@ -181,11 +185,11 @@ public class SchoolController {
             ps.executeBatch();
             conn.commit();
             ps.clearBatch();
-            long end = System.currentTimeMillis();
-            System.out.println(((end - start) / 1000) + "秒");
         }catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException("新增失败");
         }
+        long end = System.currentTimeMillis();
+        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(("耗时:"+(end - start) / 1000) + "秒");
     }
 }

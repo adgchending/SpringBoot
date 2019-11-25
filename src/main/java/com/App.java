@@ -1,6 +1,7 @@
 package com;
 
 import com.cd.common.util.DateSourceUtil.DynamicDataSourceRegister;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement//开启事物
 @ComponentScan({"org.activiti.rest.diagram", "com.cd"})//开启放行,不然访问会被activiti.rest拦截
 @EnableScheduling//开启定时任务(让SpringBoot知道你在用定时器)
+@MapperScan(basePackages = {"com.cd.baisc.dao"})
 @EnableAutoConfiguration(exclude = {
         org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class,
         org.activiti.spring.boot.SecurityAutoConfiguration.class,
