@@ -49,6 +49,7 @@ public class LoginController {
         } catch (Throwable e) {
             model.addAttribute("message", "未知错误！");
         }
+        System.out.println(model);
         return "login";
     }
 

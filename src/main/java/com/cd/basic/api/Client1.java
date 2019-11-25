@@ -51,7 +51,8 @@ public class Client1 {
     public static void main(String[] args) {
         Client1 client1;
         try {
-            client1 = new Client1();//开始尝试连接
+            //开始尝试连接
+            client1 = new Client1();
             client1.start();
             client1.run();
         } catch (Exception e) {
