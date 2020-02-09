@@ -165,6 +165,16 @@
             <artifactId>pagehelper</artifactId>
             <version>5.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
         <!-- jsp -->
         <dependency>
@@ -288,6 +298,12 @@
             <!--<version>6.2.0.jre8</version>-->
             <!--<scope>runtime</scope>-->
         <!--</dependency>-->
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
     </dependencies>
 
     <!-- maven默认是不打包源码目录下的xml文件，这会导致mybatis的xml映射文件无法打包到目标文件中 -->
@@ -387,11 +403,11 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
-        <!--<profile>-->
-            <!--<id>dep</id>-->
-            <!--<properties>-->
-                <!--<activeProperties>dep</activeProperties>-->
-            <!--</properties>-->
-        <!--</profile>-->
+        <profile>
+            <id>dep</id>
+            <properties>
+                <activeProperties>dep</activeProperties>
+            </properties>
+        </profile>
     </profiles>
 </project>
