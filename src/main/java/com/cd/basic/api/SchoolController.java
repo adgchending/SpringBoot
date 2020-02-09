@@ -1,7 +1,6 @@
 package com.cd.basic.api;
 
 import com.cd.basic.pojo.bo.BasicSchoolInforBo;
-import com.cd.basic.pojo.bo.ExamineThread;
 import com.cd.basic.pojo.bo.StudentBo;
 import com.cd.basic.pojo.domain.BasicSchoolInfor;
 import com.cd.basic.pojo.vo.StudentVo;
@@ -9,7 +8,6 @@ import com.cd.basic.service.BasicSchoolInforService;
 import com.cd.basic.service.SchoolService;
 import com.cd.common.Assist;
 import com.cd.common.properties.MyProperties;
-import com.cd.common.util.ThreadUtil;
 import com.cd.common.vo.ResultVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -21,18 +19,12 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @类名:SchoolController
@@ -78,7 +70,7 @@ public class SchoolController {
     /**
      * 新增的是master主库
      */
-    @ApiOperation(value = "新增学生信息(测试多数据源1)")
+    @ApiOperation(value = "新增学生信息(测试多数据源1)新增的是master主库")
     @PostMapping(value = "/ceshi", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultVo muchDataBases(@RequestBody List<StudentVo> vo) {
         Assist assist = new Assist();
@@ -93,7 +85,7 @@ public class SchoolController {
     /**
      * 这里查询的是test从库,从库只能进行查询操作
      */
-    @ApiOperation(value = "根据id查询学生信息(测试多数据源2)")
+    @ApiOperation(value = "根据id查询学生信息(测试多数据源2)这里查询的是test从库,从库只能进行查询操作")
     @GetMapping(value = "/dataSourse", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultVo<StudentBo> dataSourse(@RequestParam String id) {
         StudentBo studentBo = schoolService.dataSourse(id);
@@ -127,11 +119,11 @@ public class SchoolController {
     }
 
     /**
-     * @方法描述: 测试多线程查询功能
+     * @方法描述: 多线程查询
      * @创建日期: 2019/9/26
      * @author: csx
      */
-    @ApiOperation(value = "测试多线程查询")
+    @ApiOperation(value = "测试多线程查询,ps:数据量太大时swagger可能会卡住")
     @GetMapping(value = "/selectThread", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultVo selectThread(String id) {
         ResultVo vo = schoolService.selectThread(id);
@@ -139,17 +131,17 @@ public class SchoolController {
     }
 
     /**
-     * @方法描述: 多线程新增大量数据
+     * @方法描述: 新增大量数据
      * @创建日期: 2019/11/25
      * @author: csx
      */
-    @ApiOperation(value = "测试多线程新增(一次新增10w条数据,耗时13秒)")
+    @ApiOperation(value = "新增大量数据(一次新增10w条数据,耗时13秒)")
     @GetMapping(value = "/insertTrade", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Transactional(rollbackFor = Exception.class)
     public ResultVo insertTrade() {
         List<StudentBo> bos = new ArrayList<>();
         //新增10W条数据耗时13秒
-        for (int i = 0; i < 30000; i++) {
+        for (int i = 0; i < 100000; i++) {
             String name = "张三" + i;
             StudentBo studentBo = new StudentBo();
             studentBo.setName(name);
@@ -157,17 +149,17 @@ public class SchoolController {
             bos.add(studentBo);
         }
         long start = System.currentTimeMillis();
+        //建立驱动
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
-            //建立驱动
-            Connection conn = null;
             String url = "jdbc:mysql://127.0.0.1:3306/springboot?useUnicode=true&useSSL=false&characterEncoding=utf8";
             String username = "root";
             String password = "root";
             //加载驱动建立连接
             conn = DriverManager.getConnection(url, username, password);
             conn.setAutoCommit(false);
-            PreparedStatement ps = null;
-            String sql = "insert into thread VALUES (?,?)";
+            String sql = "insert into thread1 VALUES (?,?)";
             // 批量插入时ps对象必须放到for循环外面
             ps = conn.prepareStatement(sql);
             for (int i = 0; i < bos.size(); i++) {
@@ -185,11 +177,19 @@ public class SchoolController {
             ps.executeBatch();
             conn.commit();
             ps.clearBatch();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("新增失败");
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         long end = System.currentTimeMillis();
-        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(("耗时:"+(end - start) / 1000) + "秒");
+        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(("耗时:" + (end - start) / 1000) + "秒");
     }
 }

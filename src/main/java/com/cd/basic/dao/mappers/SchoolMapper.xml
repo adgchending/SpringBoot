@@ -48,11 +48,11 @@
             `basic_school_infor`
     </select>
 
-    <select id="selectBasicWorkerInfor" resultType="com.cd.basic.pojo.bo.BasicWorkerInforBo">
-      SELECT WORKER_NAME as workerName FROM basic_worker_infor
+    <select id="selectBasicWorkerInfor" resultType="com.cd.basic.pojo.bo.StudentBo">
+      SELECT *  FROM thread
     </select>
 
-    <select id="selectBasicSchoolInfor" resultType="com.cd.basic.pojo.bo.BasicSchoolInforBo">
-          SELECT SCHOOL_NAME as schoolName FROM basic_school_infor
+    <select id="selectBasicSchoolInfor" resultType="com.cd.basic.pojo.bo.StudentBo">
+          SELECT *  FROM thread1
     </select>
 </mapper>

@@ -1,7 +1,6 @@
 package com.cd.basic.dao;
 
 import com.cd.basic.pojo.bo.BasicSchoolInforBo;
-import com.cd.basic.pojo.bo.BasicWorkerInforBo;
 import com.cd.basic.pojo.bo.StudentBo;
 import com.cd.basic.pojo.vo.StudentVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,7 +20,7 @@ public interface SchoolDao {
 
     List<BasicSchoolInforBo> pageHelper();
 
-    List<BasicWorkerInforBo> selectBasicWorkerInfor();
+    List<StudentBo> selectBasicWorkerInfor(String id);
 
-    List<BasicSchoolInforBo> selectBasicSchoolInfor();
+    List<StudentBo> selectBasicSchoolInfor(String id);
 }

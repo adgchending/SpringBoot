@@ -2,7 +2,6 @@ package com.cd.basic.service.serviceImpl;
 
 import com.cd.basic.dao.SchoolDao;
 import com.cd.basic.pojo.bo.BasicSchoolInforBo;
-import com.cd.basic.pojo.bo.BasicWorkerInforBo;
 import com.cd.basic.pojo.bo.ExamineThread;
 import com.cd.basic.pojo.bo.StudentBo;
 import com.cd.basic.pojo.vo.StudentVo;
@@ -10,13 +9,12 @@ import com.cd.basic.service.SchoolService;
 import com.cd.common.util.DateSourceUtil.TargetDataSource;
 import com.cd.common.util.ThreadUtil;
 import com.cd.common.vo.ResultVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -68,6 +66,8 @@ public class SchoolServiceImpl implements SchoolService {
          * //3.将count值减1
          * public void countDown() { };
          */
+        long start = System.currentTimeMillis();
+
         CountDownLatch latch = new CountDownLatch(2);
 
         //通过线程池获得2个线程
@@ -76,26 +76,28 @@ public class SchoolServiceImpl implements SchoolService {
         //同时查询学校信息,老师信息
         String[] methodArr = new String[]{"selectBasicSchoolInfor", "selectBasicWorkerInfor"};
 
-        List<List<Map<String, Object>>> list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         List<Future<Object>> futureList = new ArrayList<>();
-
+        System.out.println();
         try {
-            for (String method : methodArr){
-                ExamineThread thread = new ExamineThread(SchoolDao.class, method,id, latch);
+            for (String method : methodArr) {
+                ExamineThread thread = new ExamineThread(SchoolDao.class, method, id, latch);
                 Future<Object> future = executor.submit(thread);
                 futureList.add(future);
             }
             executor.shutdown(); //关闭线程池
             latch.await(); //所有线程执行完之后再进行返回
             //遍历所有结果
-            for (Future<Object> future : futureList){
-                list.add((List<Map<String, Object>>) future.get());
+            for (Future<Object> future : futureList) {
+                list.add(Arrays.asList(future.get()));
             }
-        } catch (Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
-
+        long end = System.currentTimeMillis();
+        System.out.println(("耗时:" + (end - start)) + "毫秒");
         return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(list);
     }
 }

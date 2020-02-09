@@ -11,7 +11,6 @@ public class ExamineThread implements Callable<Object> {
      * 调用的server类
      */
     private Class service;
-
     /***
      * 对应的方法名称
      */
