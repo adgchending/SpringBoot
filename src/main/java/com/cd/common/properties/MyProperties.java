@@ -24,7 +24,6 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @ConfigurationProperties("cd.properties")
-//@EnableConfigurationProperties(MyProperties.class)
 public class MyProperties {
     String name;
     int age;

@@ -1,5 +1,7 @@
 //package com.cd.activiti.common;
 //
+//import com.cd.activiti.pojo.SysUser;
+//import com.cd.activiti.pojo.TaskOverVo;
 //import com.cd.common.Assist;
 //import org.activiti.engine.RuntimeService;
 //import org.activiti.engine.TaskService;
@@ -9,6 +11,7 @@
 //import org.springframework.stereotype.Service;
 //
 //import java.util.ArrayList;
+//import java.util.HashMap;
 //import java.util.List;
 //
 ///**
@@ -116,7 +119,7 @@
 //    //audit:通过(pass),不通过(reject)
 //    public void completeTaskByUser(TaskOverVo taskOverVo) {
 //        //认领任务
-//        taskService.claim(taskOverVo.getTaskFkCode(), taskOverVo.getUserFkCode());
+//        taskService.claim(taskOverVo.getTaskId(), taskOverVo.getUserFkCode());
 //        HashMap<String, Object> map = new HashMap<>();
 //        //audit必须和流程图里的值一样 如下:
 //        //CDATA[${audit=='pass'}]]
@@ -125,7 +128,7 @@
 //            map.put("day", taskOverVo.getDay());
 //        }
 //        //使流程往下走一步
-//        taskService.complete(taskOverVo.getTaskFkCode(), map);
+//        taskService.complete(taskOverVo.getTaskId(), map);
 //    }
 //
 //    //${leaveService.changeStatus(execution,'img')}

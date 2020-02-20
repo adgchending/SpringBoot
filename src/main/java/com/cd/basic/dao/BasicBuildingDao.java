@@ -1,10 +1,10 @@
 package com.cd.basic.dao;
+
 import com.cd.basic.pojo.domain.BasicBuilding;
-import java.util.List;
 import com.cd.common.Assist;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-@Mapper
+
+import java.util.List;
 public interface BasicBuildingDao{
 	/**
 	 * 获得BasicBuilding数据的总行数,可以通过辅助工具Assist进行条件查询,如果没有条件则传入null

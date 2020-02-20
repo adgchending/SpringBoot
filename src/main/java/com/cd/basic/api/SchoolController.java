@@ -8,6 +8,7 @@ import com.cd.basic.service.BasicSchoolInforService;
 import com.cd.basic.service.SchoolService;
 import com.cd.common.Assist;
 import com.cd.common.properties.MyProperties;
+import com.cd.common.properties.WebConfig;
 import com.cd.common.vo.ResultVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -153,11 +154,8 @@ public class SchoolController {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            String url = "jdbc:mysql://127.0.0.1:3306/springboot?useUnicode=true&useSSL=false&characterEncoding=utf8";
-            String username = "root";
-            String password = "root";
             //加载驱动建立连接
-            conn = DriverManager.getConnection(url, username, password);
+            conn = DriverManager.getConnection(WebConfig.url, WebConfig.username, WebConfig.password);
             conn.setAutoCommit(false);
             String sql = "insert into thread1 VALUES (?,?)";
             // 批量插入时ps对象必须放到for循环外面
