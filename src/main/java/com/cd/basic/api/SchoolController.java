@@ -79,7 +79,7 @@ public class SchoolController {
         if (i > 0) {
             return ResultVo.getInstance(Boolean.TRUE, "新增成功");
         }
-        return ResultVo.getInstance(Boolean.FALSE, "新增失败");
+        return ResultVo.getInstance(Boolean.FALSE, "新增失败111");
     }
 
 
