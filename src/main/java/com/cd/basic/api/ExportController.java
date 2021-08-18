@@ -9,6 +9,7 @@ import com.cd.basic.pojo.bo.BasicSchoolInforBo;
 import com.cd.basic.pojo.domain.BasicBuilding;
 import com.cd.basic.pojo.domain.BasicSchoolInfor;
 import com.cd.basic.pojo.excel.BuildingEntity;
+import com.cd.basic.pojo.excel.YbjDataBo;
 import com.cd.basic.service.BasicBuildingService;
 import com.cd.basic.service.BasicSchoolInforService;
 import com.cd.basic.service.BuildingServiceCustom;
@@ -35,9 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/export")
@@ -73,6 +72,38 @@ public class ExportController {
         param.setExportParams(exportParams);
         param.setRequest(request);
         param.setResponse(response);
+
+        //多sheel导出
+        if(1>0){
+            param.setResponse(response);
+            param.setRequest(request);
+
+            YbjDataBo ybjDataBo = new YbjDataBo();
+            List<YbjDataBo> benchmarkList = new ArrayList<>();
+            benchmarkList.add(ybjDataBo);
+
+            param.setFileName("分组数据导入");
+            param.setMoreSheet(true);
+            List<Map<String, Object>> list = new ArrayList<>();
+            //先导出默认的sheet的页
+            HashMap map1 = new HashMap();
+            ExportParams exportParams1 = new ExportParams("医保局分组数据", "医保局分组数据");
+            exportParams1.setType(ExcelType.XSSF);
+            map1.put("title", exportParams1);
+            map1.put("entity", YbjDataBo.class);
+            map1.put("data", benchmarkList);
+            list.add(map1);
+
+            HashMap map2 = new HashMap();
+            ExportParams exportParams2 = new ExportParams("drg分组数据", "drg分组数据");
+            exportParams2.setType(ExcelType.XSSF);
+            map2.put("title", exportParams2);
+            map2.put("entity", YbjDataBo.class);
+            map2.put("data", benchmarkList);
+            list.add(map2);
+            param.setListMap(list);
+        }
+
 
         boolean flag = ExcelUtil.ExportExcel(param);
         return flag;
@@ -160,11 +191,17 @@ public class ExportController {
         return s;
     }
 
+
+    @ApiOperation(value = "医保局导入")
+    @PostMapping("/input")
+    public void importBuild(MultipartFile file) {
+        List<YbjDataBo> ybjDataBos = ExcelUtil.importExcel(file, 0, 1, YbjDataBo.class);
+        System.out.println(ybjDataBos);
+    }
+
     /**
      * 导出建筑模版
      *
-     * @param request
-     * @param response
      * @return
      */
     @ApiOperation(value = "easyPoi导出建筑模版")
@@ -190,7 +227,7 @@ public class ExportController {
         CellStyle cellStyle1 = workbook.createCellStyle();
         Font font = workbook.createFont();
         //红色
-        font.setColor(new XSSFColor(IndexedColors.RED).getIndex());
+//        font.setColor(new XSSFColor(IndexedColors.RED).getIndex());
         //加粗
         font.setBold(true);
         cellStyle1.setFont(font);
@@ -270,7 +307,7 @@ public class ExportController {
         validation2.createErrorBox("提示信息", "请选择下拉框中的内容!");
         sheet.addValidationData(validation2);
 
-        workbook.setSheetHidden(workbook.getSheetIndex("typelist"), 1);
+//        workbook.setSheetHidden(workbook.getSheetIndex("typelist"), 1);
 
         //获取浏览器类型,定义字符集
         String userAgent = request.getHeader("USER-AGENT");
@@ -295,8 +332,7 @@ public class ExportController {
         }
         return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(flag);
     }
-
-    public static void genearteOtherSheet(Workbook wb, String[] typeArrays,int column) {
+    public static void genearteOtherSheet(Workbook wb, String[] typeArrays, int column) {
         // 创建下拉列表值存储工作表
         Sheet sheet = wb.getSheet("typelist");
         if (sheet == null) {
@@ -305,11 +341,11 @@ public class ExportController {
         // 循环往该sheet中设置添加下拉列表的值
         for (int i = 0; i < typeArrays.length; i++) {
             Row row = sheet.getRow(i);
-            if(row == null){
+            if (row == null) {
                 row = sheet.createRow(i);
             }
             Cell cell = row.getCell(column);
-            if(cell == null){
+            if (cell == null) {
                 cell = row.createCell(column);
             }
             cell.setCellValue(typeArrays[i]);

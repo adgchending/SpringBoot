@@ -190,15 +190,25 @@
         </dependency>
 
         <!-- easypoi -->
+        <!--        <dependency>-->
+        <!--            <groupId>cn.afterturn</groupId>-->
+        <!--            <artifactId>easypoi-base</artifactId>-->
+        <!--            <version>3.0.2</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>cn.afterturn</groupId>-->
+        <!--            <artifactId>easypoi-annotation</artifactId>-->
+        <!--            <version>3.0.2</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-base</artifactId>
-            <version>3.0.2</version>
+            <version>4.4.0</version>
         </dependency>
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-annotation</artifactId>
-            <version>3.0.2</version>
+            <version>4.4.0</version>
         </dependency>
 
         <!--lombok插件-->
@@ -288,6 +298,42 @@
             <artifactId>activiti-spring</artifactId>
             <version>5.22.0</version>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.5.6</version>
+        </dependency>
+
+        <!-- 集成kettle 引入本地jar包  在src同层次的lib文件夹下-->
+        <dependency>
+            <groupId>pentaho-kettle</groupId>
+            <artifactId>kettle-core</artifactId>
+            <version>8.2.0.0-342</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/kettle-core-8.2.0.0-342.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>pentaho-kettle</groupId>
+            <artifactId>kettle-engine</artifactId>
+            <version>8.2.0.0-342</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/kettle-engine-8.2.0.0-342.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>pentaho-kettle</groupId>
+            <artifactId>metastore</artifactId>
+            <version>8.2.0.0-342</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/metastore-8.2.0.0-342.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-vfs2</artifactId>
+            <version>2.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/commons-vfs2-2.2.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
     <!-- maven默认是不打包源码目录下的xml文件，这会导致mybatis的xml映射文件无法打包到目标文件中 -->

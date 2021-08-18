@@ -117,7 +117,7 @@ public class FileUploadUtil {
 
 
     /**
-     * @Param:功能说明:在服务器里建立对应的文件夹,通过nginx映射回显图片
+     * @Param:功能说明:在服务器里建立对应的文件夹,通过nginx映射回显图片1000
      * @parameter:参数说明:文件的byte字节,文件名,图片为true文件为false
      * @return：返回结果描述:
      * @Throws：返回异常结果:

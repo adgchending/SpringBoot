@@ -22,7 +22,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class ExcelUtil {
 
@@ -199,6 +201,25 @@ public class ExcelUtil {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static <T> List<T> importExcel(MultipartFile file, Integer titleRows, Integer headerRows, Class<T> pojoClass) {
+        if (file == null) {
+            return null;
+        }
+        ImportParams params = new ImportParams();
+        params.setTitleRows(titleRows);
+        params.setHeadRows(headerRows);
+        List<T> list = null;
+        try {
+            list = ExcelImportUtil.importExcel(file.getInputStream(), pojoClass, params);
+        } catch (NoSuchElementException e) {
+            throw new RuntimeException("excel文件不能为空");
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+
+        }
+        return list;
     }
 
 
