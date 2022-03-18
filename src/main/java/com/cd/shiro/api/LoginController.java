@@ -50,7 +50,7 @@ public class LoginController {
             model.addAttribute("message", "未知错误！");
         }
         System.out.println(model);
-        return "login";
+        return model;
     }
 
     /**
@@ -60,7 +60,7 @@ public class LoginController {
     @RequestMapping("/logout")
     public String logout() {
         SecurityUtils.getSubject().logout();
-        return "login";
+        return "/login";
     }
     /**
      * 首页，并将登录用户的全名返回前台

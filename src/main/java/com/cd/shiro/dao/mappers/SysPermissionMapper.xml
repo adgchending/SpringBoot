@@ -3,7 +3,7 @@
 <mapper namespace="com.cd.shiro.dao.SysPermissionDao">
     <select id="selectPermissionByUserId" parameterType="long" resultType="string">
     SELECT DISTINCT
-        sp.permission
+        sp.PERMISSION_NAME
     FROM
         sys_permission sp
         INNER JOIN sys_role_permission srp ON sp.id = srp.permission_id

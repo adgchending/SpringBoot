@@ -9,6 +9,7 @@ import com.cd.basic.service.SchoolService;
 import com.cd.common.util.DateSourceUtil.TargetDataSource;
 import com.cd.common.util.ThreadUtil;
 import com.cd.common.vo.ResultVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,10 +20,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
-@Service
+@Service(value = "SchoolServiceImpl")
 public class SchoolServiceImpl implements SchoolService {
     @Resource
     SchoolDao schoolDao;
+
+    @Autowired
+    AsyncService asyncService;
 
     //多数据源注解,根据value值来选定不同的连接
     @TargetDataSource(value = "ds1")
@@ -52,6 +56,11 @@ public class SchoolServiceImpl implements SchoolService {
         return schoolDao.pageHelper();
     }
 
+
+    @Override
+    public void delete() {
+        schoolDao.delete();
+    }
 
     @Override
     public ResultVo selectThread(String id) {

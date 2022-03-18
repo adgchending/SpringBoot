@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <link rel="shortcut icon" href="static/images/title.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../resources/META-INF/resources/static/images/title.jpg" type="image/x-icon">
     <title>SpringBoot</title>
     <style>
         #form-div {
@@ -34,7 +34,7 @@
 </head>
 <body>
 <div id="form-div">
-    <form id="form1" method="post" action="/login">
+    <form id="form1" method="post" action="/csx/login">
         <p>用户名：<input name="username" type="text" size="25" value="" style="font-family: 楷体"/></p>
         <p>密　码：<input name="password" type="password" size="25" value="" style="font-family: 楷体"/></p>
         <p><input type="submit" value="登    录" onclick="login()"

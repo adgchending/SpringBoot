@@ -39,6 +39,7 @@ public class UserRealm extends AuthorizingRealm {
     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        //获取登录用户
         SysUser sysUser = (SysUser) principals.getPrimaryPrincipal();
         //查询用户权限
         List<String> sysPermissions = sysPermissionService.selectPermissionByUserId(sysUser.getUserId());
@@ -49,6 +50,7 @@ public class UserRealm extends AuthorizingRealm {
         LOGGER.info("doGetAuthorizationInfo");
         LOGGER.info("---- 获取到以下权限 ----");
         LOGGER.info(authorizationInfo.getStringPermissions().toString());
+        String s = authorizationInfo.getStringPermissions().toString();
         return authorizationInfo;
     }
 

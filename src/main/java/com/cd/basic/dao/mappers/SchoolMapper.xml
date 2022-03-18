@@ -55,4 +55,12 @@
     <select id="selectBasicSchoolInfor" resultType="com.cd.basic.pojo.bo.StudentBo">
           SELECT *  FROM thread1
     </select>
+
+    <insert id="insertThread">
+        INSERT INTO thread (name, age) VALUES (#{name},#{age});
+    </insert>
+
+    <delete id="delete">
+        DELETE from thread
+    </delete>
 </mapper>

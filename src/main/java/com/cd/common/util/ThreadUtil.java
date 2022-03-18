@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class ThreadUtil {
     /**
      * @Description: 获取一个线程池
-     * @Author: sl
+     * @Author: csx
      * @Date: 2019-05-22 17:26
      */
     public static ThreadPoolExecutor getThreadPool(int corePoolSize){

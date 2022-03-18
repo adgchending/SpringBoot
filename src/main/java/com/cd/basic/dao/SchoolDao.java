@@ -21,4 +21,8 @@ public interface SchoolDao {
     List<StudentBo> selectBasicWorkerInfor(String id);
 
     List<StudentBo> selectBasicSchoolInfor(String id);
+
+    void insertThread(StudentBo bo);
+
+    void delete();
 }

@@ -6,9 +6,10 @@ import com.cd.basic.pojo.domain.BasicSchoolInfor;
 import com.cd.basic.pojo.vo.StudentVo;
 import com.cd.basic.service.BasicSchoolInforService;
 import com.cd.basic.service.SchoolService;
+import com.cd.basic.service.serviceImpl.DataInitService;
 import com.cd.common.Assist;
+import com.cd.common.init.CacheData;
 import com.cd.common.properties.MyProperties;
-import com.cd.common.properties.WebConfig;
 import com.cd.common.vo.ResultVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,14 +17,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +46,13 @@ public class SchoolController {
     SchoolService schoolService;
     @Autowired
     MyProperties myProperties;
+
+    @Autowired
+    DataInitService dataInitService;
+
+    @Value("${myqueue}")
+    private String myqueue;
+
 
     /**
      * 通过Assist工具直接操作数据库,不用写业务代码
@@ -79,7 +83,7 @@ public class SchoolController {
         if (i > 0) {
             return ResultVo.getInstance(Boolean.TRUE, "新增成功");
         }
-        return ResultVo.getInstance(Boolean.FALSE, "新增失败111");
+        return ResultVo.getInstance(Boolean.FALSE, "新增失败");
     }
 
 
@@ -97,7 +101,8 @@ public class SchoolController {
     @GetMapping(value = "/properties", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultVo properties() {
         return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS)
-                .settingObjectData("姓名: " + myProperties.getName() + " 年龄: " + myProperties.getAge() + "性别" + myProperties.getVo().getSex());
+                .settingObjectData("姓名: " + myProperties.getName() + " 年龄: " + myProperties.getAge() + "性别" + myProperties.getVo().getSex()
+                        + "第二种方式,通过注解" + myqueue);
     }
 
     /**
@@ -120,74 +125,26 @@ public class SchoolController {
     }
 
     /**
-     * @方法描述: 多线程查询
+     * @方法描述: 从缓存里拿取数据
      * @创建日期: 2019/9/26
      * @author: csx
      */
-    @ApiOperation(value = "测试多线程查询,ps:数据量太大时swagger可能会卡住")
-    @GetMapping(value = "/selectThread", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultVo selectThread(String id) {
-        ResultVo vo = schoolService.selectThread(id);
-        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(vo);
-    }
+    @ApiOperation(value = "从缓存里拿取数据")
+    @GetMapping(value = "/getInit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultVo getInit() throws Exception {
+        //拿缓存的时候先刷新缓存,这样做可以保证缓存里的数据是最新的
+        dataInitService.run(null);
 
-    /**
-     * @方法描述: 新增大量数据
-     * @创建日期: 2019/11/25
-     * @author: csx
-     */
-    @ApiOperation(value = "新增大量数据(一次新增10w条数据,耗时13秒)")
-    @GetMapping(value = "/insertTrade", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @Transactional(rollbackFor = Exception.class)
-    public ResultVo insertTrade() {
-        List<StudentBo> bos = new ArrayList<>();
-        //新增10W条数据耗时13秒
-        for (int i = 0; i < 100000; i++) {
-            String name = "张三" + i;
-            StudentBo studentBo = new StudentBo();
-            studentBo.setName(name);
-            studentBo.setAge(i);
-            bos.add(studentBo);
-        }
-        long start = System.currentTimeMillis();
-        //建立驱动
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            //加载驱动建立连接
-            conn = DriverManager.getConnection(WebConfig.url, WebConfig.username, WebConfig.password);
-            conn.setAutoCommit(false);
-            String sql = "insert into thread1 VALUES (?,?)";
-            // 批量插入时ps对象必须放到for循环外面
-            ps = conn.prepareStatement(sql);
-            for (int i = 0; i < bos.size(); i++) {
-                ps.setString(1, bos.get(i).getName());
-                ps.setInt(2, bos.get(i).getAge());
+        ArrayList<Object> objects = new ArrayList<>();
 
-                ps.addBatch();
-                if (i % 1000 == 0) {
-                    ps.executeBatch();
-                    conn.commit();
-                    ps.clearBatch();
-                }
-            }
-            // 剩余数量不足1000
-            ps.executeBatch();
-            conn.commit();
-            ps.clearBatch();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("新增失败");
-        } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        int user_id = 1;
+        for (int i = 0; i < 3; i++) {
+            //根据id 拿姓名
+            String user_name = CacheData.sysuerMap.get(user_id);
+            System.out.println(user_name);
+            objects.add(user_name);
+            user_id++;
         }
-        long end = System.currentTimeMillis();
-        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(("耗时:" + (end - start) / 1000) + "秒");
+        return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(objects);
     }
 }

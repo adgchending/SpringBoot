@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <link rel="shortcut icon" href="static/images/title.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../resources/META-INF/resources/static/images/title.jpg" type="image/x-icon">
     <title>SpringBoot</title>
 </head>
 <body>
@@ -12,7 +12,7 @@
 <form method="get" action="swagger-ui.html">
     <input type="submit" value="点击进入swagger">
 </form>
-<a href="modeler.html?modelId=1">
+<a href="../../../resources/META-INF/resources/modeler.html?modelId=1">
     <input type="submit" value="点击进入activiti">
 </a>
 <form method="get" action="/test1">
