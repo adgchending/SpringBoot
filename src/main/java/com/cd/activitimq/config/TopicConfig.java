@@ -1,26 +1,26 @@
 package com.cd.activitimq.config;
 
-import javax.jms.Queue;
-
-import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 
+import javax.jms.Topic;
+
 
 @Configuration
 @EnableJms//启动消息队列
-public class BeanConfig {
+public class TopicConfig {
 
     //自定义mq的id名称
-    @Value("${myqueue}")
+    @Value("${mytopic}")
     private String QMname;
 
 
     //定义存放消息的队列
     @Bean
-    public Queue queue() {
-        return new ActiveMQQueue(QMname);
+    public Topic topic() {
+        return new ActiveMQTopic(QMname);
     }
 }
