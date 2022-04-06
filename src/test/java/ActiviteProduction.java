@@ -44,7 +44,7 @@ public class ActiviteProduction {
         //  消息持久化
         //  int NON_PERSISTENT = 1; 最多消费一次。这是由于服务器的宕机会造成消息丢失
         //  int PERSISTENT = 2; 消费一次且仅消费一次。可靠性最好，但是占用服务器资源比较多。
-        //默认是持久的
+        //默认是持久的    搞好数据库持久化后能在数据库里查到消息
         messageProducer.setDeliveryMode(DeliveryMode.PERSISTENT);
 
         for (int i = 1; i <= 3; i++) {

@@ -70,7 +70,6 @@
         </dependency>
 
 
-
         <!--spring-boot集成mybatis主要依赖-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -211,6 +210,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!--多数据源-->
@@ -332,10 +332,10 @@
 
         <!--消息队列连接池-->
         <!-- activemq消息队列-->
-            <!--        <dependency>-->
-            <!--            <groupId>org.springframework.boot</groupId>-->
-            <!--            <artifactId>spring-boot-starter-activemq</artifactId>-->
-            <!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.apache.xbean</groupId>
             <artifactId>xbean-spring</artifactId>
