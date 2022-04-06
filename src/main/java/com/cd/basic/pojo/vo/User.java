@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 
-public class UserVo implements Serializable{
+public class User implements Serializable{
     @ApiModelProperty(value = "名字", dataType = "String", required = true)
     private String name;
     @ApiModelProperty(value = "id",dataType = "String",required = true)

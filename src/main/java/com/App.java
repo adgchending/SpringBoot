@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement//开启事物
 @ComponentScan({"org.activiti.rest.diagram", "com.cd"})//开启放行,不然访问会被activiti.rest拦截
 @EnableScheduling//开启定时任务(让SpringBoot知道你在用定时器)
-@MapperScan(basePackages = {"com.cd.*.dao"})//不用加mapper注解
+@MapperScan(basePackages = {"com.cd.*.dao"})//扫描该路径下的mapper
 @EnableAutoConfiguration(exclude = {
         org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class,
         org.activiti.spring.boot.SecurityAutoConfiguration.class,

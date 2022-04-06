@@ -1,5 +1,7 @@
 package com.cd.common.Aspect;
 
+import com.cd.basic.pojo.bo.StudentBo;
+import com.cd.basic.pojo.vo.StudentVo;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -38,6 +40,5 @@ public class Aop {
         String method = request.getMethod();
         String ip = request.getRemoteHost();
         LOGGER.info("请求的url:{},method:{},ip:{}", uri, method, ip);
-
     }
 }
