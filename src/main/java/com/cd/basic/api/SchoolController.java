@@ -65,6 +65,7 @@ public class SchoolController {
         assist.setRequires(Assist.andEq("ID", id));
         //BasicSchoolInfor vo = service.selectBasicSchoolInforById(Long.valueOf(id));
         List<BasicSchoolInfor> basicSchoolInfors = service.selectBasicSchoolInfor(assist);
+        System.out.println("学校名称:"+basicSchoolInfors.get(0).getSchoolName());
         if (basicSchoolInfors != null) {
             return ResultVo.getInstance(Boolean.TRUE, ResultVo.ReturnCode.SUCCESS).settingObjectData(basicSchoolInfors);
         } else {
